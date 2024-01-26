@@ -1,49 +1,36 @@
 extends CharacterBody2D
 
-const HEALTH = 100
-@onready var isInCombo = false
-const timeTillNextInput = 0.5
-@onready var time = 0
-@onready var currentAttack = 0
-@onready var previousAttack = 0
-
 const SPEED = 300.0
 const JUMP_VELOCITY = -400.0
 const CROUCH_MODIFIER = 0.5
 @onready var PREV = 0
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
-@onready var player = get_node(".")
+@onready var player = get_parent()
 @onready var is_crouch = 0
 @onready var anim = get_node("AnimationPlayer")
+@onready var is_attack = 0
+@onready var attack_type = 0
 
-func _ready():
-	time = timeTillNextInput
+func attack():
+	match attack_type:
+		0: 
+			anim.play("Light_Attack")
+		1:
+			anim.play("Heavy_Attack")
 
 func _physics_process(delta):
-
+	var state = 0
 	# Add the gravity.
 	if not is_on_floor():
 		velocity.y += gravity * delta
-		
-	if velocity.y > 0 && anim.current_animation != "Heavy_Attack" && anim.current_animation != "Light_Attack":
-		anim.play("Fall")
-		
-	# Handle jump.
-	if Input.is_action_just_pressed("up") and is_on_floor():
-		velocity.y = JUMP_VELOCITY
-		anim.play("Jump")
-
 	# Get the input direction and handle the movement/deceleration.
 	# As good practice, you should replace UI actions with custom gameplay actions.
 	
 	var left = Input.is_action_pressed("left")
 	var right = Input.is_action_pressed("right")
 	var down = Input.is_action_pressed("down")
-	if Input.is_action_just_pressed("light_attack"):
-		anim.play("Light_Attack")
-	if Input.is_action_just_pressed("heavy_attack"):
-		anim.play("Heavy_Attack")		
+	
 	var direction = 0
 	
 	# Nullify previous input so player cant stop if left and right are pressed at the same time
@@ -59,29 +46,52 @@ func _physics_process(delta):
 			direction = -1
 		elif PREV == -1:
 			direction = 1
-		
+			
+	# Goofy AF crouch
+	var speed = SPEED
+
+	if direction:
+		state = 1
+	if down:
+		state = 4
+		speed *= CROUCH_MODIFIER
+	# Handle jump.
+	if (Input.is_action_just_pressed("up") and is_on_floor()):
+		velocity.y = JUMP_VELOCITY
+	if velocity.y < 0:
+		state = 2
+	if velocity.y > 0:
+		state = 3
+	
+	if Input.is_action_just_pressed("light_attack"):
+		attack_type = 0
+		state = 5
+	if Input.is_action_just_pressed("heavy_attack"):
+		attack_type = 1
+		state = 5
+	
 	if direction == -1:
 		get_node("AnimatedSprite2D").flip_h = true
 	elif direction == 1:
 		get_node("AnimatedSprite2D").flip_h = false
 	
-	
-	
-	# Goofy AF crouch
-	var speed = SPEED
-	if down:
-		anim.play("Crouch")
-		speed *= CROUCH_MODIFIER
-	if direction:
-		velocity.x = direction * speed
-		if velocity.y == 0 && !down && anim.current_animation != "Heavy_Attack" && anim.current_animation != "Light_Attack":
-			anim.play("Run")
-	else:
-		velocity.x = move_toward(velocity.x, 0, SPEED)
-		if velocity.y == 0 && !down && anim.current_animation != "Heavy_Attack" && anim.current_animation != "Light_Attack":
+	match state:
+		0: 
+			velocity.x = move_toward(velocity.x, 0, SPEED)
 			anim.play("Idle")
-	
-
-
+		1: 
+			velocity.x = direction * speed
+			anim.play("Run")
+		2: 
+			anim.play("Jump")			
+		3: 
+			anim.play("Fall")	
+		4: 
+			anim.play("Crouch")
+		5: 
+			attack()
+		_:
+			print("This should not happen")
+			anim.play("Idle")
 	move_and_slide()
 
