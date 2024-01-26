@@ -1,0 +1,14 @@
+[gd_scene load_steps=2 format=3 uid="uid://csjh1xgo14wxl"]
+
+[ext_resource type="Texture2D" uid="uid://kpn77n2kswa4" path="res://slay2.png" id="1_lqd3k"]
+
+[node name="Main" type="Node2D"]
+
+[node name="SlayQueen" type="ParallaxBackground" parent="."]
+
+[node name="ParallaxLayer" type="ParallaxLayer" parent="SlayQueen"]
+
+[node name="Slay2" type="Sprite2D" parent="SlayQueen/ParallaxLayer"]
+position = Vector2(539, 328)
+scale = Vector2(0.567722, 0.594444)
+texture = ExtResource("1_lqd3k")
