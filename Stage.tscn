@@ -1,31 +1,61 @@
-[gd_scene load_steps=3 format=3 uid="uid://djkmsuj1ka214"]
+[gd_scene load_steps=5 format=3 uid="uid://ju633yc20j2v"]
 
 [ext_resource type="PackedScene" uid="uid://bowm640hcb2g5" path="res://Player.tscn" id="1_fv3i3"]
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_1oc0f"]
-size = Vector2(1153.5, 24)
+[ext_resource type="PackedScene" uid="uid://bcpwikbtu13yb" path="res://Objects/Stage/Wall.tscn" id="2_30kbn"]
+[ext_resource type="Script" path="res://addons/phantom_camera/scripts/phantom_camera/phantom_camera_2D.gd" id="3_2o35j"]
+[ext_resource type="Script" path="res://addons/phantom_camera/scripts/phantom_camera_host/phantom_camera_host.gd" id="4_k6754"]
 
 [node name="Stage" type="Node2D"]
 
-[node name="StaticBody2D" type="StaticBody2D" parent="."]
-position = Vector2(575, 635)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
-shape = SubResource("RectangleShape2D_1oc0f")
-
-[node name="StaticBody2D2" type="StaticBody2D" parent="."]
-position = Vector2(575, 635)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D2"]
-position = Vector2(-575, -223)
-rotation = -4.71238
-shape = SubResource("RectangleShape2D_1oc0f")
-
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="StaticBody2D2"]
-position = Vector2(579, -192)
-rotation = -4.71238
-shape = SubResource("RectangleShape2D_1oc0f")
-
 [node name="Player" parent="." instance=ExtResource("1_fv3i3")]
 position = Vector2(337, 455)
-scale = Vector2(8, 8)
+scale = Vector2(20, 20)
+
+[node name="Geometry" type="Node2D" parent="."]
+position = Vector2(1000, 897)
+rotation = 1.5708
+scale = Vector2(2, 48)
+
+[node name="Floor" parent="Geometry" instance=ExtResource("2_30kbn")]
+
+[node name="Right Wall" parent="Geometry" instance=ExtResource("2_30kbn")]
+position = Vector2(-948.5, 0)
+rotation = -1.5708
+scale = Vector2(0.0416667, 24.725)
+
+[node name="Left Wall" parent="Geometry" instance=ExtResource("2_30kbn")]
+position = Vector2(-948.5, 41.6667)
+rotation = -1.5708
+scale = Vector2(0.0416667, 24.725)
+
+[node name="PhantomCamera2D" type="Node2D" parent="."]
+position = Vector2(337, 455)
+script = ExtResource("3_2o35j")
+priority_override = false
+priority = 0
+zoom = Vector2(1, 1)
+follow_mode = 5
+follow_target = NodePath("../Player")
+follow_parameters/target_offset = Vector2(0, 0)
+follow_parameters/damping = false
+follow_parameters/dead_zone_horizontal = 0.4
+follow_parameters/dead_zone_vertical = 0.2
+follow_parameters/viewfinder_in_play = false
+frame_preview = true
+pixel_perfect = false
+limit/draw_limits = false
+limit/left = -10000000
+limit/top = -10000000
+limit/right = 10000000
+limit/bottom = 10000000
+limit/limit_node_target = NodePath("")
+limit/smoothed = false
+tween_parameters = null
+tween_on_load = true
+inactive_update_mode = 0
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(337, 455)
+
+[node name="PhantomCameraHost" type="Node" parent="Camera2D"]
+script = ExtResource("4_k6754")
