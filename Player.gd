@@ -4,7 +4,7 @@ extends CharacterBody2D
 const SPEED = 300.0
 const JUMP_VELOCITY = -400.0
 const CROUCH_MODIFIER = 0.5
-
+@onready var PREV = 0
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 
@@ -21,8 +21,28 @@ func _physics_process(delta):
 
 	# Get the input direction and handle the movement/deceleration.
 	# As good practice, you should replace UI actions with custom gameplay actions.
-	var direction = Input.get_axis("left", "right")
 	
+	var left = Input.is_action_pressed("left")
+	var right = Input.is_action_pressed("right")
+	
+	var direction = 0
+	# set previos button
+	if left != false && right == false:
+		PREV = -1
+		direction = -1
+	elif right != false && left == false:
+		PREV = 1
+		direction = 1
+	
+	if left == true && right == true:
+		if PREV == 1:
+			direction = -1
+		elif PREV == -1:
+			direction = 1
+		
+	
+	print(direction)
+	print(PREV)
 	if direction == -1:
 		get_node("AnimatedSprite2D").flip_h = true
 	elif direction == 1:
