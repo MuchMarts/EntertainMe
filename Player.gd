@@ -7,7 +7,9 @@ const CROUCH_MODIFIER = 0.5
 @onready var PREV = 0
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
-
+@onready var player = get_node(".")
+@onready var is_crouch = 0
+@onready var flag = 0
 @onready var anim = get_node("AnimationPlayer")
 
 func _physics_process(delta):
@@ -24,6 +26,7 @@ func _physics_process(delta):
 	
 	var left = Input.is_action_pressed("left")
 	var right = Input.is_action_pressed("right")
+	var down = Input.is_action_pressed("down")
 	
 	var direction = 0
 	# set previos button
@@ -47,9 +50,22 @@ func _physics_process(delta):
 		get_node("AnimatedSprite2D").flip_h = true
 	elif direction == 1:
 		get_node("AnimatedSprite2D").flip_h = false
+	
+	var speed = SPEED
+	if down:
+		if !is_crouch:
+			player.scale /= 2
+			is_crouch = 1
+		speed *= CROUCH_MODIFIER
 		
+	else:
+		if is_crouch:
+			player.scale *= 2
+			is_crouch = 0
+		speed = SPEED
+	
 	if direction:
-		velocity.x = direction * SPEED
+		velocity.x = direction * speed
 		if velocity.y == 0:
 			anim.play("Run")
 	else:
