@@ -1,6 +1,11 @@
 extends CharacterBody2D
 
 const HEALTH = 100
+@onready var isInCombo = false
+const timeTillNextInput = 0.5
+@onready var time = 0
+@onready var currentAttack = 0
+@onready var previousAttack = 0
 
 const SPEED = 300.0
 const JUMP_VELOCITY = -400.0
@@ -12,13 +17,16 @@ var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 @onready var is_crouch = 0
 @onready var anim = get_node("AnimationPlayer")
 
+func _ready():
+	time = timeTillNextInput
+
 func _physics_process(delta):
 
 	# Add the gravity.
 	if not is_on_floor():
 		velocity.y += gravity * delta
 		
-	if velocity.y > 0:
+	if velocity.y > 0 && anim.current_animation != "Heavy_Attack" && anim.current_animation != "Light_Attack":
 		anim.play("Fall")
 		
 	# Handle jump.
@@ -32,13 +40,10 @@ func _physics_process(delta):
 	var left = Input.is_action_pressed("left")
 	var right = Input.is_action_pressed("right")
 	var down = Input.is_action_pressed("down")
-	
 	if Input.is_action_just_pressed("light_attack"):
 		anim.play("Light_Attack")
-		
 	if Input.is_action_just_pressed("heavy_attack"):
-		anim.play("Heavy_Attack")
-		
+		anim.play("Heavy_Attack")		
 	var direction = 0
 	
 	# Nullify previous input so player cant stop if left and right are pressed at the same time
@@ -60,20 +65,23 @@ func _physics_process(delta):
 	elif direction == 1:
 		get_node("AnimatedSprite2D").flip_h = false
 	
+	
+	
 	# Goofy AF crouch
 	var speed = SPEED
 	if down:
 		anim.play("Crouch")
 		speed *= CROUCH_MODIFIER
-	
 	if direction:
 		velocity.x = direction * speed
-		if velocity.y == 0 && !down:
+		if velocity.y == 0 && !down && anim.current_animation != "Heavy_Attack" && anim.current_animation != "Light_Attack":
 			anim.play("Run")
 	else:
 		velocity.x = move_toward(velocity.x, 0, SPEED)
-		if velocity.y == 0 && !down:
+		if velocity.y == 0 && !down && anim.current_animation != "Heavy_Attack" && anim.current_animation != "Light_Attack":
 			anim.play("Idle")
+	
+
 
 	move_and_slide()
 
