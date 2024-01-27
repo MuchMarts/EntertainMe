@@ -4,9 +4,11 @@ const SPEED = 300.0
 const JUMP_VELOCITY = -400.0
 const CROUCH_MODIFIER = 0.5
 const TIME_BETWEEN_KEYS = 0.05 
+const MAX_HEALTH = 100
 
 signal get_enemy_dmg
 signal attack_enemy
+signal update_health
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
@@ -20,7 +22,9 @@ var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 @onready var attack_seq_check = 0
 @onready var stored_action = 0
 @onready var time = 0
+@onready var time2 = 0
 @onready var crouch_flag = 0
+@onready var player_health = 90
 
 func just_movement():
 	if anim.current_animation == "Idle":
@@ -42,7 +46,12 @@ func is_attacking():
 	if anim.current_animation.contains("Attack"):
 		return true
 	return false
-
+	
+func change_health():
+	print("Here2")
+	var newHealth = float(player_health) / float(MAX_HEALTH)
+	update_health.emit(int(newHealth * 100))
+	
 func _physics_process(delta):
 	var state = 0
 	var direction = 0
@@ -180,3 +189,6 @@ func _physics_process(delta):
 
 func _on_colliders_attack(dmg, target):
 	attack_enemy.emit(dmg, target)
+
+
+
