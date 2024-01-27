@@ -12,6 +12,7 @@ var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 @onready var player = get_parent()
 @onready var is_crouch = 0
 @onready var anim = get_node("AnimationPlayer")
+@onready var mid_col
 @onready var attack_type = 0
 @onready var attack_seq_check = 0
 @onready var stored_action = 0
@@ -71,9 +72,11 @@ func _physics_process(delta):
 			direction = 1
 	
 	if direction == -1:
-		get_node("AnimatedSprite2D").flip_h = true
+		if get_node("AnimatedSprite2D").scale.x >= 0:
+			get_node("AnimatedSprite2D").scale.x *= -1 
 	elif direction == 1:
-		get_node("AnimatedSprite2D").flip_h = false
+		if get_node("AnimatedSprite2D").scale.x < 0:
+			get_node("AnimatedSprite2D").scale.x *= -1 
 	
 	# Goofy AF crouch
 	

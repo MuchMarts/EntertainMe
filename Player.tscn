@@ -107,7 +107,7 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("Colliders/Light_Attack/Mid/CollisionShape2D:disabled")
+tracks/2/path = NodePath("AnimatedSprite2D/Colliders/Light_Attack/Mid/CollisionShape2D:disabled")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -119,7 +119,7 @@ tracks/2/keys = {
 tracks/3/type = "value"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("Colliders/Light_Attack/Mid/CollisionShape2D:shape")
+tracks/3/path = NodePath("AnimatedSprite2D/Colliders/Light_Attack/Mid/CollisionShape2D:shape")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
@@ -220,7 +220,7 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("Colliders/HeavyAttack/Mid/CollisionShape2D:shape")
+tracks/2/path = NodePath("AnimatedSprite2D/Colliders/HeavyAttack/Mid/CollisionShape2D:shape")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -232,7 +232,7 @@ tracks/2/keys = {
 tracks/3/type = "value"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("Colliders/HeavyAttack/Mid/CollisionShape2D:disabled")
+tracks/3/path = NodePath("AnimatedSprite2D/Colliders/HeavyAttack/Mid/CollisionShape2D:disabled")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
@@ -271,7 +271,7 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("Colliders/HeavyAttack/Mid/CollisionShape2D:shape")
+tracks/2/path = NodePath("AnimatedSprite2D/Colliders/HeavyAttack/Mid/CollisionShape2D:shape")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -283,7 +283,7 @@ tracks/2/keys = {
 tracks/3/type = "value"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("Colliders/HeavyAttack/Mid/CollisionShape2D:disabled")
+tracks/3/path = NodePath("AnimatedSprite2D/Colliders/HeavyAttack/Mid/CollisionShape2D:disabled")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
@@ -295,7 +295,7 @@ tracks/3/keys = {
 tracks/4/type = "value"
 tracks/4/imported = false
 tracks/4/enabled = true
-tracks/4/path = NodePath("Colliders/Light_Attack/Mid/CollisionShape2D:disabled")
+tracks/4/path = NodePath("AnimatedSprite2D/Colliders/Light_Attack/Mid/CollisionShape2D:disabled")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
@@ -307,7 +307,7 @@ tracks/4/keys = {
 tracks/5/type = "value"
 tracks/5/imported = false
 tracks/5/enabled = true
-tracks/5/path = NodePath("Colliders/Light_Attack/Mid/CollisionShape2D:shape")
+tracks/5/path = NodePath("AnimatedSprite2D/Colliders/Light_Attack/Mid/CollisionShape2D:shape")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/keys = {
@@ -434,7 +434,7 @@ animations = [{
 script = ExtResource("1_jgq1r")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(-3.7044, -5.33279)
+position = Vector2(-3.7, -5.287)
 shape = SubResource("RectangleShape2D_f8lyc")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
@@ -443,29 +443,31 @@ libraries = {
 }
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-position = Vector2(-3.50261, -5.23027)
+position = Vector2(-3.7, -5.02)
 scale = Vector2(0.00872208, 0.00946061)
 sprite_frames = SubResource("SpriteFrames_88ilu")
 animation = &"Idle"
 
-[node name="Colliders" type="Node2D" parent="."]
+[node name="Colliders" type="Node2D" parent="AnimatedSprite2D"]
+position = Vector2(424.211, 530.621)
+scale = Vector2(114.652, 105.701)
 
-[node name="HeavyAttack" type="Node2D" parent="Colliders"]
+[node name="HeavyAttack" type="Node2D" parent="AnimatedSprite2D/Colliders"]
 
-[node name="Mid" type="Area2D" parent="Colliders/HeavyAttack"]
+[node name="Mid" type="Area2D" parent="AnimatedSprite2D/Colliders/HeavyAttack"]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Colliders/HeavyAttack/Mid"]
-position = Vector2(1.36934, -5.28743)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AnimatedSprite2D/Colliders/HeavyAttack/Mid"]
+position = Vector2(1.4, -5.287)
 shape = SubResource("RectangleShape2D_fpmxc")
 debug_color = Color(1, 0.196078, 0.419608, 0.419608)
 
-[node name="Light_Attack" type="Node2D" parent="Colliders"]
+[node name="Light_Attack" type="Node2D" parent="AnimatedSprite2D/Colliders"]
 
-[node name="Mid" type="Area2D" parent="Colliders/Light_Attack"]
+[node name="Mid" type="Area2D" parent="AnimatedSprite2D/Colliders/Light_Attack"]
 position = Vector2(0.34705, -3.38241)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Colliders/Light_Attack/Mid"]
-position = Vector2(1.68481, -1.90593)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AnimatedSprite2D/Colliders/Light_Attack/Mid"]
+position = Vector2(1.7, -1.90503)
 scale = Vector2(1.255, 1)
 shape = SubResource("RectangleShape2D_6vkkv")
 debug_color = Color(1, 0.196078, 0.419608, 0.419608)
