@@ -36,7 +36,12 @@ func just_movement():
 	if !anim.is_playing():
 		return true
 	return false
-	
+
+func is_attacking():
+	if anim.current_animation.contains("Attack"):
+		return true
+	return false
+
 func _physics_process(delta):
 	var state = 0
 	var direction = 0
@@ -78,40 +83,64 @@ func _physics_process(delta):
 		if get_node("CollisionShape2D/AnimatedSprite2D").scale.x < 0:
 			get_node("CollisionShape2D/AnimatedSprite2D").scale.x *= -1 
 	
-	# Goofy AF crouch
 	
 	if attack_seq_check:
 		time += delta
+		var flag = 1
 		if time <= TIME_BETWEEN_KEYS and (lAttack or hAttack):
+			if hAttack: 
+				stored_action += 1
+			flag = 0
 			match stored_action:
 				1:
-					pass
+					print("Top Light")
 				2:
-					pass
+					print("Top Heavy")
 				3:
-					pass
+					anim.play("Light_Attack")
+					get_enemy_dmg.emit(0)
+				4:
+					anim.play("Heavy_Attack")
+					get_enemy_dmg.emit(1)
+				5:
+					print("Bot Light")
+				6:
+					print("Bot Heavy")
 			
+			time = 0
 			attack_seq_check = 0
 			stored_action = 0
-	
-	if direction && !attack_seq_check:
+		
+		elif time >= TIME_BETWEEN_KEYS and flag:
+			if just_movement() and is_on_floor() and stored_action == 1:
+				velocity.y = JUMP_VELOCITY
+			
+			time = 0
+			attack_seq_check = 0
+			stored_action = 0
+
+	elif !direction and (lAttack or hAttack):
+		if lAttack:
+			anim.play("Light_Attack")
+			get_enemy_dmg.emit(0)
+		if hAttack:
+			anim.play("Heavy_Attack")
+			get_enemy_dmg.emit(1)
+			
+	if (jump or velocity.y < 0) && !attack_seq_check:
 		attack_seq_check = 1
 		stored_action = 1
 		time = 0
 	
-	if jump && !attack_seq_check:
-		attack_seq_check = 1
-		stored_action = 2
-		time = 0
-	
 	if down && !attack_seq_check:
 		attack_seq_check = 1
-		stored_action = 3
+		stored_action = 5
 		time = 0
-	
-	
-	if jump and just_movement() and is_on_floor():
-		velocity.y = JUMP_VELOCITY
+		
+	if direction && !attack_seq_check:
+		attack_seq_check = 1
+		stored_action = 3
+		time = 0	
 	
 	if direction and just_movement():
 		var speed = SPEED
@@ -131,12 +160,16 @@ func _physics_process(delta):
 		velocity.x = move_toward(velocity.x, 0, SPEED)
 		anim.play("Idle")
 	
-	if hAttack && anim.current_animation != "Light_Attack":
+	if hAttack and is_attacking():
 		anim.play("Heavy_Attack")
 		get_enemy_dmg.emit(1)
-	if lAttack && anim.current_animation != "Heavy_Attack":
+	if lAttack and is_attacking():
 		anim.play("Light_Attack")
 		get_enemy_dmg.emit(0)
+	
+	
+	
+	
 		
 	move_and_slide()
 

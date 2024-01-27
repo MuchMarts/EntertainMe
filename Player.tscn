@@ -185,7 +185,7 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("CollisionShape2D/AnimatedSprite2D/Colliders/Light_Attack/Mid/CollisionShape2D:disabled")
+tracks/2/path = NodePath("CollisionShape2D/AnimatedSprite2D/Colliders/Heavy_Attack/Mid/CollisionShape2D:disabled")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -197,7 +197,7 @@ tracks/2/keys = {
 tracks/3/type = "value"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("CollisionShape2D/AnimatedSprite2D/Colliders/Light_Attack/Mid/CollisionShape2D:shape")
+tracks/3/path = NodePath("CollisionShape2D/AnimatedSprite2D/Colliders/Heavy_Attack/Mid/CollisionShape2D:shape")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
@@ -214,7 +214,7 @@ tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
 "clips": [{
-"end_offset": 1.11853,
+"end_offset": 1.10742,
 "start_offset": 0.0965533,
 "stream": ExtResource("14_womo6")
 }],
@@ -321,7 +321,7 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("CollisionShape2D/AnimatedSprite2D/Colliders/HeavyAttack/Mid/CollisionShape2D:shape")
+tracks/2/path = NodePath("CollisionShape2D/AnimatedSprite2D/Colliders/Light_Attack/Mid/CollisionShape2D:shape")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -333,7 +333,7 @@ tracks/2/keys = {
 tracks/3/type = "value"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("CollisionShape2D/AnimatedSprite2D/Colliders/HeavyAttack/Mid/CollisionShape2D:disabled")
+tracks/3/path = NodePath("CollisionShape2D/AnimatedSprite2D/Colliders/Light_Attack/Mid/CollisionShape2D:disabled")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
@@ -387,7 +387,7 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("CollisionShape2D/AnimatedSprite2D/Colliders/HeavyAttack/Mid/CollisionShape2D:shape")
+tracks/2/path = NodePath("CollisionShape2D/AnimatedSprite2D/Colliders/Light_Attack/Mid/CollisionShape2D:shape")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -399,7 +399,7 @@ tracks/2/keys = {
 tracks/3/type = "value"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("CollisionShape2D/AnimatedSprite2D/Colliders/HeavyAttack/Mid/CollisionShape2D:disabled")
+tracks/3/path = NodePath("CollisionShape2D/AnimatedSprite2D/Colliders/Light_Attack/Mid/CollisionShape2D:disabled")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
@@ -411,7 +411,7 @@ tracks/3/keys = {
 tracks/4/type = "value"
 tracks/4/imported = false
 tracks/4/enabled = true
-tracks/4/path = NodePath("CollisionShape2D/AnimatedSprite2D/Colliders/Light_Attack/Mid/CollisionShape2D:disabled")
+tracks/4/path = NodePath("CollisionShape2D/AnimatedSprite2D/Colliders/Heavy_Attack/Mid/CollisionShape2D:disabled")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
@@ -423,7 +423,7 @@ tracks/4/keys = {
 tracks/5/type = "value"
 tracks/5/imported = false
 tracks/5/enabled = true
-tracks/5/path = NodePath("CollisionShape2D/AnimatedSprite2D/Colliders/Light_Attack/Mid/CollisionShape2D:shape")
+tracks/5/path = NodePath("CollisionShape2D/AnimatedSprite2D/Colliders/Heavy_Attack/Mid/CollisionShape2D:shape")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/keys = {
@@ -504,23 +504,43 @@ position = Vector2(424.211, 530.621)
 scale = Vector2(114.652, 105.701)
 script = ExtResource("13_27veu")
 
-[node name="HeavyAttack" type="Node2D" parent="CollisionShape2D/AnimatedSprite2D/Colliders"]
+[node name="Light_Attack" type="Node2D" parent="CollisionShape2D/AnimatedSprite2D/Colliders"]
 
-[node name="Mid" type="Area2D" parent="CollisionShape2D/AnimatedSprite2D/Colliders/HeavyAttack"]
+[node name="Mid" type="Area2D" parent="CollisionShape2D/AnimatedSprite2D/Colliders/Light_Attack"]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="CollisionShape2D/AnimatedSprite2D/Colliders/HeavyAttack/Mid"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CollisionShape2D/AnimatedSprite2D/Colliders/Light_Attack/Mid"]
 position = Vector2(1.07207, -5.287)
 shape = SubResource("RectangleShape2D_fpmxc")
 disabled = true
 debug_color = Color(1, 0.196078, 0.419608, 0.419608)
 
-[node name="Light_Attack" type="Node2D" parent="CollisionShape2D/AnimatedSprite2D/Colliders"]
+[node name="Heavy_Attack" type="Node2D" parent="CollisionShape2D/AnimatedSprite2D/Colliders"]
 
-[node name="Mid" type="Area2D" parent="CollisionShape2D/AnimatedSprite2D/Colliders/Light_Attack"]
+[node name="Mid" type="Area2D" parent="CollisionShape2D/AnimatedSprite2D/Colliders/Heavy_Attack"]
 position = Vector2(0.34705, -3.38241)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="CollisionShape2D/AnimatedSprite2D/Colliders/Light_Attack/Mid"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CollisionShape2D/AnimatedSprite2D/Colliders/Heavy_Attack/Mid"]
 position = Vector2(1.7, -1.90503)
+scale = Vector2(1.255, 1)
+shape = SubResource("RectangleShape2D_6vkkv")
+disabled = true
+debug_color = Color(1, 0.196078, 0.419608, 0.419608)
+
+[node name="Top" type="Area2D" parent="CollisionShape2D/AnimatedSprite2D/Colliders/Heavy_Attack"]
+position = Vector2(0.6941, -6.76482)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CollisionShape2D/AnimatedSprite2D/Colliders/Heavy_Attack/Top"]
+position = Vector2(1.35295, -2.32668)
+scale = Vector2(1.255, 1)
+shape = SubResource("RectangleShape2D_6vkkv")
+disabled = true
+debug_color = Color(1, 0.196078, 0.419608, 0.419608)
+
+[node name="Bot" type="Area2D" parent="CollisionShape2D/AnimatedSprite2D/Colliders/Heavy_Attack"]
+position = Vector2(1.3882, -13.5296)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CollisionShape2D/AnimatedSprite2D/Colliders/Heavy_Attack/Bot"]
+position = Vector2(0.65885, 12.0096)
 scale = Vector2(1.255, 1)
 shape = SubResource("RectangleShape2D_6vkkv")
 disabled = true
@@ -537,7 +557,11 @@ volume_db = -5.0
 [connection signal="attack_enemy" from="." to="CollisionShape2D/AnimatedSprite2D/Colliders" method="_on_player_attack_enemy"]
 [connection signal="get_enemy_dmg" from="." to="CollisionShape2D/AnimatedSprite2D/Colliders" method="_on_player_get_enemy_dmg"]
 [connection signal="attack" from="CollisionShape2D/AnimatedSprite2D/Colliders" to="." method="_on_colliders_attack"]
-[connection signal="body_entered" from="CollisionShape2D/AnimatedSprite2D/Colliders/HeavyAttack/Mid" to="CollisionShape2D/AnimatedSprite2D/Colliders" method="_on_mid_body_entered"]
-[connection signal="body_exited" from="CollisionShape2D/AnimatedSprite2D/Colliders/HeavyAttack/Mid" to="CollisionShape2D/AnimatedSprite2D/Colliders" method="_on_mid_body_exited"]
 [connection signal="body_entered" from="CollisionShape2D/AnimatedSprite2D/Colliders/Light_Attack/Mid" to="CollisionShape2D/AnimatedSprite2D/Colliders" method="_on_mid_body_entered"]
 [connection signal="body_exited" from="CollisionShape2D/AnimatedSprite2D/Colliders/Light_Attack/Mid" to="CollisionShape2D/AnimatedSprite2D/Colliders" method="_on_mid_body_exited"]
+[connection signal="body_entered" from="CollisionShape2D/AnimatedSprite2D/Colliders/Heavy_Attack/Mid" to="CollisionShape2D/AnimatedSprite2D/Colliders" method="_on_mid_body_entered"]
+[connection signal="body_exited" from="CollisionShape2D/AnimatedSprite2D/Colliders/Heavy_Attack/Mid" to="CollisionShape2D/AnimatedSprite2D/Colliders" method="_on_mid_body_exited"]
+[connection signal="body_entered" from="CollisionShape2D/AnimatedSprite2D/Colliders/Heavy_Attack/Top" to="CollisionShape2D/AnimatedSprite2D/Colliders" method="_on_mid_body_entered"]
+[connection signal="body_exited" from="CollisionShape2D/AnimatedSprite2D/Colliders/Heavy_Attack/Top" to="CollisionShape2D/AnimatedSprite2D/Colliders" method="_on_mid_body_exited"]
+[connection signal="body_entered" from="CollisionShape2D/AnimatedSprite2D/Colliders/Heavy_Attack/Bot" to="CollisionShape2D/AnimatedSprite2D/Colliders" method="_on_mid_body_entered"]
+[connection signal="body_exited" from="CollisionShape2D/AnimatedSprite2D/Colliders/Heavy_Attack/Bot" to="CollisionShape2D/AnimatedSprite2D/Colliders" method="_on_mid_body_exited"]
