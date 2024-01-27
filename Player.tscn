@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=3 uid="uid://bowm640hcb2g5"]
+[gd_scene load_steps=26 format=3 uid="uid://bowm640hcb2g5"]
 
 [ext_resource type="Script" path="res://Player.gd" id="1_jgq1r"]
 [ext_resource type="Texture2D" uid="uid://eir6iysegpwp" path="res://Assets/Player/crouch1.png" id="2_nsae7"]
@@ -14,7 +14,7 @@
 [ext_resource type="Texture2D" uid="uid://dorabd5ejqp5p" path="res://Assets/Player/light_attack.png" id="10_kgdx7"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_f8lyc"]
-size = Vector2(7, 11.5)
+size = Vector2(7.58806, 10.6753)
 
 [sub_resource type="Animation" id="Animation_ht0ol"]
 resource_name = "Crouch"
@@ -74,6 +74,9 @@ tracks/1/keys = {
 "values": [0]
 }
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6vkkv"]
+size = Vector2(3.17165, 3.79882)
+
 [sub_resource type="Animation" id="Animation_ar6gm"]
 resource_name = "Heavy_Attack"
 length = 0.5
@@ -100,6 +103,30 @@ tracks/1/keys = {
 "transitions": PackedFloat32Array(1, 1),
 "update": 1,
 "values": [0, 1]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Colliders/Light_Attack/Mid/CollisionShape2D:disabled")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [true, false, true]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Colliders/Light_Attack/Mid/CollisionShape2D:shape")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [SubResource("RectangleShape2D_6vkkv")]
 }
 
 [sub_resource type="Animation" id="Animation_ogeo6"]
@@ -160,6 +187,9 @@ tracks/1/keys = {
 "values": [0]
 }
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fpmxc"]
+size = Vector2(2.628, 3.79882)
+
 [sub_resource type="Animation" id="Animation_iyi7s"]
 resource_name = "Light_Attack"
 length = 0.2
@@ -187,6 +217,30 @@ tracks/1/keys = {
 "update": 1,
 "values": [0]
 }
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Colliders/HeavyAttack/Mid/CollisionShape2D:shape")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [SubResource("RectangleShape2D_fpmxc")]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Colliders/HeavyAttack/Mid/CollisionShape2D:disabled")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.18),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
 
 [sub_resource type="Animation" id="Animation_6psy1"]
 length = 0.001
@@ -213,6 +267,54 @@ tracks/1/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Colliders/HeavyAttack/Mid/CollisionShape2D:shape")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [SubResource("RectangleShape2D_fpmxc")]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Colliders/HeavyAttack/Mid/CollisionShape2D:disabled")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Colliders/Light_Attack/Mid/CollisionShape2D:disabled")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Colliders/Light_Attack/Mid/CollisionShape2D:shape")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [SubResource("RectangleShape2D_6vkkv")]
 }
 
 [sub_resource type="Animation" id="Animation_t77rf"]
@@ -328,23 +430,11 @@ animations = [{
 "speed": 5.0
 }]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_fpmxc"]
-size = Vector2(2.628, 3.79882)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_m0jd3"]
-size = Vector2(3.05345, 3.79882)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_fe7mp"]
-size = Vector2(3.05345, 3.79882)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_6vkkv"]
-size = Vector2(3.05345, 3.79882)
-
 [node name="Player" type="CharacterBody2D"]
 script = ExtResource("1_jgq1r")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(-0.5, -0.25)
+position = Vector2(-3.7044, -5.33279)
 shape = SubResource("RectangleShape2D_f8lyc")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
@@ -353,60 +443,29 @@ libraries = {
 }
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-position = Vector2(-0.515, -2.98023e-08)
-scale = Vector2(0.00872208, 0.00989739)
+position = Vector2(-3.50261, -5.23027)
+scale = Vector2(0.00872208, 0.00946061)
 sprite_frames = SubResource("SpriteFrames_88ilu")
 animation = &"Idle"
 
 [node name="Colliders" type="Node2D" parent="."]
 
-[node name="ShortRange" type="Node2D" parent="Colliders"]
+[node name="HeavyAttack" type="Node2D" parent="Colliders"]
 
-[node name="Top" type="Area2D" parent="Colliders/ShortRange"]
+[node name="Mid" type="Area2D" parent="Colliders/HeavyAttack"]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Colliders/ShortRange/Top"]
-position = Vector2(4.31784, 3.54913)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Colliders/HeavyAttack/Mid"]
+position = Vector2(1.36934, -5.28743)
 shape = SubResource("RectangleShape2D_fpmxc")
 debug_color = Color(1, 0.196078, 0.419608, 0.419608)
 
-[node name="Mid" type="Area2D" parent="Colliders/ShortRange"]
+[node name="Light_Attack" type="Node2D" parent="Colliders"]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Colliders/ShortRange/Mid"]
-position = Vector2(4.33455, -4.06472)
-shape = SubResource("RectangleShape2D_fpmxc")
-debug_color = Color(1, 0.196078, 0.419608, 0.419608)
+[node name="Mid" type="Area2D" parent="Colliders/Light_Attack"]
+position = Vector2(0.34705, -3.38241)
 
-[node name="Botom" type="Area2D" parent="Colliders/ShortRange"]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Colliders/ShortRange/Botom"]
-position = Vector2(4.30125, -0.275295)
-shape = SubResource("RectangleShape2D_fpmxc")
-debug_color = Color(1, 0.196078, 0.419608, 0.419608)
-
-[node name="LongRange" type="Node2D" parent="Colliders"]
-
-[node name="Top" type="Area2D" parent="Colliders/LongRange"]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Colliders/LongRange/Top"]
-position = Vector2(4.9285, 3.5841)
-scale = Vector2(1.255, 1)
-shape = SubResource("RectangleShape2D_m0jd3")
-debug_color = Color(1, 0.196078, 0.419608, 0.419608)
-
-[node name="Mid" type="Area2D" parent="Colliders/LongRange"]
-position = Vector2(3.125, 0.015625)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Colliders/LongRange/Mid"]
-position = Vector2(1.7896, -4.08043)
-scale = Vector2(1.255, 1)
-shape = SubResource("RectangleShape2D_fe7mp")
-debug_color = Color(1, 0.196078, 0.419608, 0.419608)
-
-[node name="Botom" type="Area2D" parent="Colliders/LongRange"]
-position = Vector2(3.125, 0.015625)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Colliders/LongRange/Botom"]
-position = Vector2(1.79788, -0.249619)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Colliders/Light_Attack/Mid"]
+position = Vector2(1.68481, -1.90593)
 scale = Vector2(1.255, 1)
 shape = SubResource("RectangleShape2D_6vkkv")
 debug_color = Color(1, 0.196078, 0.419608, 0.419608)
