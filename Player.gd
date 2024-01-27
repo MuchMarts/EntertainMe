@@ -20,6 +20,7 @@ var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 @onready var attack_seq_check = 0
 @onready var stored_action = 0
 @onready var time = 0
+@onready var crouch_flag = 0
 
 func just_movement():
 	if anim.current_animation == "Idle":
@@ -55,7 +56,7 @@ func _physics_process(delta):
 	var left = Input.is_action_pressed("left")
 	var right = Input.is_action_pressed("right")
 	var down = Input.is_action_pressed("down")
-	var jump = Input.is_action_just_pressed("up")
+	var jump = Input.is_action_pressed("up")
 	var lAttack = Input.is_action_just_pressed("light_attack")
 	var hAttack = Input.is_action_just_pressed("heavy_attack")
 	
@@ -77,11 +78,11 @@ func _physics_process(delta):
 			direction = 1
 	
 	if direction == -1:
-		if get_node("CollisionShape2D/AnimatedSprite2D").scale.x >= 0:
-			get_node("CollisionShape2D/AnimatedSprite2D").scale.x *= -1 
+		if get_node("AnimatedSprite2D").scale.x >= 0:
+			get_node("AnimatedSprite2D").scale.x *= -1 
 	elif direction == 1:
-		if get_node("CollisionShape2D/AnimatedSprite2D").scale.x < 0:
-			get_node("CollisionShape2D/AnimatedSprite2D").scale.x *= -1 
+		if get_node("AnimatedSprite2D").scale.x < 0:
+			get_node("AnimatedSprite2D").scale.x *= -1 
 	
 	
 	if attack_seq_check:
@@ -93,19 +94,23 @@ func _physics_process(delta):
 			flag = 0
 			match stored_action:
 				1:
-					print("Top Light")
+					anim.play("Light_Attack_Top")
+					get_enemy_dmg.emit(0)
 				2:
-					print("Top Heavy")
+					anim.play("Heavy_Attack_Top")
+					get_enemy_dmg.emit(1)
 				3:
-					anim.play("Light_Attack")
+					anim.play("Light_Attack_Mid")
 					get_enemy_dmg.emit(0)
 				4:
-					anim.play("Heavy_Attack")
+					anim.play("Heavy_Attack_Mid")
 					get_enemy_dmg.emit(1)
 				5:
-					print("Bot Light")
+					anim.play("Light_Attack_Bot")
+					get_enemy_dmg.emit(0)
 				6:
-					print("Bot Heavy")
+					anim.play("Heavy_Attack_Bot")
+					get_enemy_dmg.emit(1)
 			
 			time = 0
 			attack_seq_check = 0
@@ -121,10 +126,10 @@ func _physics_process(delta):
 
 	elif !direction and (lAttack or hAttack):
 		if lAttack:
-			anim.play("Light_Attack")
+			anim.play("Light_Attack_Mid")
 			get_enemy_dmg.emit(0)
 		if hAttack:
-			anim.play("Heavy_Attack")
+			anim.play("Heavy_Attack_Mid")
 			get_enemy_dmg.emit(1)
 			
 	if (jump or velocity.y < 0) && !attack_seq_check:
@@ -142,6 +147,11 @@ func _physics_process(delta):
 		stored_action = 3
 		time = 0	
 	
+	if not down and crouch_flag:
+		crouch_flag = 0
+		get_node("CollisionShape2D").disabled = false
+		get_node("CollisionShape2D2").disabled = true
+	
 	if direction and just_movement():
 		var speed = SPEED
 		if !down:
@@ -149,9 +159,15 @@ func _physics_process(delta):
 		else:
 			anim.play("Crouch")
 			speed *= CROUCH_MODIFIER
+			crouch_flag = 1
+			get_node("CollisionShape2D").disabled = true
+			get_node("CollisionShape2D2").disabled = false
 		velocity.x = direction * speed
 	elif down and just_movement():
 		anim.play("Crouch")
+		crouch_flag = 1
+		get_node("CollisionShape2D").disabled = true
+		get_node("CollisionShape2D2").disabled = false
 	elif velocity.y > 0 and just_movement():
 		anim.play("Fall")
 	elif velocity.y < 0 and just_movement():
@@ -159,20 +175,8 @@ func _physics_process(delta):
 	elif just_movement():
 		velocity.x = move_toward(velocity.x, 0, SPEED)
 		anim.play("Idle")
-	
-	if hAttack and is_attacking():
-		anim.play("Heavy_Attack")
-		get_enemy_dmg.emit(1)
-	if lAttack and is_attacking():
-		anim.play("Light_Attack")
-		get_enemy_dmg.emit(0)
-	
-	
-	
-	
-		
-	move_and_slide()
 
+	move_and_slide()
 
 func _on_colliders_attack(dmg, target):
 	attack_enemy.emit(dmg, target)

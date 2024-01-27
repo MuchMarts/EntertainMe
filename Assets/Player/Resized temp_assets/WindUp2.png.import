@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dm45g8c4sg5uy"
-path="res://.godot/imported/heavy_attack1.png-f524f61527ec17ca0667402a28aabe29.ctex"
+uid="uid://dkh3rwe40katl"
+path="res://.godot/imported/WindUp2.png-1c340e8bfd170b355ba9f26b094eea31.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Player/heavy_attack1.png"
-dest_files=["res://.godot/imported/heavy_attack1.png-f524f61527ec17ca0667402a28aabe29.ctex"]
+source_file="res://Assets/Player/Resized temp_assets/WindUp2.png"
+dest_files=["res://.godot/imported/WindUp2.png-1c340e8bfd170b355ba9f26b094eea31.ctex"]
 
 [params]
 
