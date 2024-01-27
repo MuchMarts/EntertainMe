@@ -1,6 +1,7 @@
 extends Node2D
 
 @onready var _target_enemy = []
+@onready var atk_dmg = 0
 signal attack
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -14,21 +15,20 @@ func _process(delta):
 
 
 func _on_mid_body_entered(body):
-	if body.has_method("Enemy"):
-		print("Found")
+	if body.is_in_group("Enemy"):
 		_target_enemy.append(body)
+		attack.emit(atk_dmg, body)
 
 
 func _on_mid_body_exited(body):
-	_target_enemy.erase(body)
+	if body.is_in_group("Enemy"):
+		_target_enemy.erase(body)
 
 
 func _on_player_get_enemy_dmg(type):
 	var dmg = 0
 	match type:
 		0:
-			dmg = 5
+			atk_dmg = 5
 		1:
-			dmg = 10
-	for enemy in _target_enemy:
-		attack.emit(dmg, enemy)
+			atk_dmg = 10

@@ -72,11 +72,11 @@ func _physics_process(delta):
 			direction = 1
 	
 	if direction == -1:
-		if get_node("AnimatedSprite2D").scale.x >= 0:
-			get_node("AnimatedSprite2D").scale.x *= -1 
+		if get_node("CollisionShape2D/AnimatedSprite2D").scale.x >= 0:
+			get_node("CollisionShape2D/AnimatedSprite2D").scale.x *= -1 
 	elif direction == 1:
-		if get_node("AnimatedSprite2D").scale.x < 0:
-			get_node("AnimatedSprite2D").scale.x *= -1 
+		if get_node("CollisionShape2D/AnimatedSprite2D").scale.x < 0:
+			get_node("CollisionShape2D/AnimatedSprite2D").scale.x *= -1 
 	
 	# Goofy AF crouch
 	
@@ -131,10 +131,10 @@ func _physics_process(delta):
 		velocity.x = move_toward(velocity.x, 0, SPEED)
 		anim.play("Idle")
 	
-	if hAttack:
+	if hAttack && anim.current_animation != "Light_Attack":
 		anim.play("Heavy_Attack")
 		get_enemy_dmg.emit(1)
-	if lAttack:
+	if lAttack && anim.current_animation != "Heavy_Attack":
 		anim.play("Light_Attack")
 		get_enemy_dmg.emit(0)
 		
