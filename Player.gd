@@ -5,6 +5,9 @@ const JUMP_VELOCITY = -400.0
 const CROUCH_MODIFIER = 0.5
 const TIME_BETWEEN_KEYS = 0.05 
 
+signal get_enemy_dmg
+signal attack_enemy
+
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 
@@ -17,9 +20,6 @@ var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 @onready var attack_seq_check = 0
 @onready var stored_action = 0
 @onready var time = 0
-
-func attack():
-	pass
 
 func just_movement():
 	if anim.current_animation == "Idle":
@@ -133,8 +133,13 @@ func _physics_process(delta):
 	
 	if hAttack:
 		anim.play("Heavy_Attack")
+		get_enemy_dmg.emit(1)
 	if lAttack:
 		anim.play("Light_Attack")
-	
+		get_enemy_dmg.emit(0)
+		
 	move_and_slide()
 
+
+func _on_colliders_attack(dmg, target):
+	attack_enemy.emit(dmg, target)

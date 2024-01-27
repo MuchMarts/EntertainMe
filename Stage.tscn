@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://ju633yc20j2v"]
+[gd_scene load_steps=6 format=3 uid="uid://ju633yc20j2v"]
 
 [ext_resource type="PackedScene" uid="uid://bowm640hcb2g5" path="res://Player.tscn" id="1_fv3i3"]
 [ext_resource type="PackedScene" uid="uid://bcpwikbtu13yb" path="res://Objects/Stage/Wall.tscn" id="2_30kbn"]
 [ext_resource type="Script" path="res://addons/phantom_camera/scripts/phantom_camera/phantom_camera_2D.gd" id="3_2o35j"]
 [ext_resource type="Script" path="res://addons/phantom_camera/scripts/phantom_camera_host/phantom_camera_host.gd" id="4_k6754"]
+[ext_resource type="PackedScene" uid="uid://ckwbcwvg27pe6" path="res://Enemy.tscn" id="5_75to3"]
 
 [node name="Stage" type="Node2D"]
 
@@ -59,3 +60,13 @@ position = Vector2(337, 455)
 
 [node name="PhantomCameraHost" type="Node" parent="Camera2D"]
 script = ExtResource("4_k6754")
+
+[node name="Enemy" parent="." instance=ExtResource("5_75to3")]
+position = Vector2(-740, 766)
+scale = Vector2(10, 10)
+
+[node name="Enemy2" parent="." instance=ExtResource("5_75to3")]
+position = Vector2(810, 777)
+scale = Vector2(10, 10)
+
+[connection signal="attack_enemy" from="Player" to="Enemy" method="_on_player_attack_enemy"]

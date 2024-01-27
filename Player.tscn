@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=3 uid="uid://bowm640hcb2g5"]
+[gd_scene load_steps=27 format=3 uid="uid://bowm640hcb2g5"]
 
 [ext_resource type="Script" path="res://Player.gd" id="1_jgq1r"]
 [ext_resource type="Texture2D" uid="uid://eir6iysegpwp" path="res://Assets/Player/crouch1.png" id="2_nsae7"]
@@ -12,6 +12,7 @@
 [ext_resource type="Texture2D" uid="uid://doyinoejkfwpe" path="res://Assets/Player/Idle3.png" id="8_ync6h"]
 [ext_resource type="Texture2D" uid="uid://d3hjp85c436a2" path="res://Assets/Player/jump1.png" id="9_6jaf6"]
 [ext_resource type="Texture2D" uid="uid://dorabd5ejqp5p" path="res://Assets/Player/light_attack.png" id="10_kgdx7"]
+[ext_resource type="Script" path="res://Colliders.gd" id="13_27veu"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_f8lyc"]
 size = Vector2(7.58806, 10.6753)
@@ -451,6 +452,7 @@ animation = &"Idle"
 [node name="Colliders" type="Node2D" parent="AnimatedSprite2D"]
 position = Vector2(424.211, 530.621)
 scale = Vector2(114.652, 105.701)
+script = ExtResource("13_27veu")
 
 [node name="HeavyAttack" type="Node2D" parent="AnimatedSprite2D/Colliders"]
 
@@ -471,3 +473,11 @@ position = Vector2(1.7, -1.90503)
 scale = Vector2(1.255, 1)
 shape = SubResource("RectangleShape2D_6vkkv")
 debug_color = Color(1, 0.196078, 0.419608, 0.419608)
+
+[connection signal="attack_enemy" from="." to="AnimatedSprite2D/Colliders" method="_on_player_attack_enemy"]
+[connection signal="get_enemy_dmg" from="." to="AnimatedSprite2D/Colliders" method="_on_player_get_enemy_dmg"]
+[connection signal="attack" from="AnimatedSprite2D/Colliders" to="." method="_on_colliders_attack"]
+[connection signal="body_entered" from="AnimatedSprite2D/Colliders/HeavyAttack/Mid" to="AnimatedSprite2D/Colliders" method="_on_mid_body_entered"]
+[connection signal="body_exited" from="AnimatedSprite2D/Colliders/HeavyAttack/Mid" to="AnimatedSprite2D/Colliders" method="_on_mid_body_exited"]
+[connection signal="body_entered" from="AnimatedSprite2D/Colliders/Light_Attack/Mid" to="AnimatedSprite2D/Colliders" method="_on_mid_body_entered"]
+[connection signal="body_exited" from="AnimatedSprite2D/Colliders/Light_Attack/Mid" to="AnimatedSprite2D/Colliders" method="_on_mid_body_exited"]
