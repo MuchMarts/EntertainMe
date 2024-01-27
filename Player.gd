@@ -43,7 +43,7 @@ func just_movement():
 	return false
 
 func is_attacking():
-	if anim.current_animation.contains("Attack"):
+	if anim.current_animation.contains("Attack") and anim.is_playing():
 		return true
 	return false
 	
@@ -94,7 +94,7 @@ func _physics_process(delta):
 			get_node("AnimatedSprite2D").scale.x *= -1 
 	
 	
-	if attack_seq_check:
+	if attack_seq_check and not is_attacking():
 		time += delta
 		var flag = 1
 		if time <= TIME_BETWEEN_KEYS and (lAttack or hAttack):
@@ -133,7 +133,7 @@ func _physics_process(delta):
 			attack_seq_check = 0
 			stored_action = 0
 
-	elif !direction and (lAttack or hAttack):
+	elif !direction and (lAttack or hAttack) and not is_attacking():
 		if lAttack:
 			anim.play("Light_Attack_Mid")
 			get_enemy_dmg.emit(0)
