@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3 uid="uid://bowm640hcb2g5"]
+[gd_scene load_steps=28 format=3 uid="uid://bowm640hcb2g5"]
 
 [ext_resource type="Script" path="res://Player.gd" id="1_jgq1r"]
 [ext_resource type="Texture2D" uid="uid://eir6iysegpwp" path="res://Assets/Player/crouch1.png" id="2_nsae7"]
@@ -328,6 +328,18 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fpmxc"]
+size = Vector2(2.628, 3.79882)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_m0jd3"]
+size = Vector2(3.05345, 3.79882)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fe7mp"]
+size = Vector2(3.05345, 3.79882)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6vkkv"]
+size = Vector2(3.05345, 3.79882)
+
 [node name="Player" type="CharacterBody2D"]
 script = ExtResource("1_jgq1r")
 
@@ -345,3 +357,56 @@ position = Vector2(-0.515, -2.98023e-08)
 scale = Vector2(0.00872208, 0.00989739)
 sprite_frames = SubResource("SpriteFrames_88ilu")
 animation = &"Idle"
+
+[node name="Colliders" type="Node2D" parent="."]
+
+[node name="ShortRange" type="Node2D" parent="Colliders"]
+
+[node name="Top" type="Area2D" parent="Colliders/ShortRange"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Colliders/ShortRange/Top"]
+position = Vector2(4.31784, 3.54913)
+shape = SubResource("RectangleShape2D_fpmxc")
+debug_color = Color(1, 0.196078, 0.419608, 0.419608)
+
+[node name="Mid" type="Area2D" parent="Colliders/ShortRange"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Colliders/ShortRange/Mid"]
+position = Vector2(4.33455, -4.06472)
+shape = SubResource("RectangleShape2D_fpmxc")
+debug_color = Color(1, 0.196078, 0.419608, 0.419608)
+
+[node name="Botom" type="Area2D" parent="Colliders/ShortRange"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Colliders/ShortRange/Botom"]
+position = Vector2(4.30125, -0.275295)
+shape = SubResource("RectangleShape2D_fpmxc")
+debug_color = Color(1, 0.196078, 0.419608, 0.419608)
+
+[node name="LongRange" type="Node2D" parent="Colliders"]
+
+[node name="Top" type="Area2D" parent="Colliders/LongRange"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Colliders/LongRange/Top"]
+position = Vector2(4.9285, 3.5841)
+scale = Vector2(1.255, 1)
+shape = SubResource("RectangleShape2D_m0jd3")
+debug_color = Color(1, 0.196078, 0.419608, 0.419608)
+
+[node name="Mid" type="Area2D" parent="Colliders/LongRange"]
+position = Vector2(3.125, 0.015625)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Colliders/LongRange/Mid"]
+position = Vector2(1.7896, -4.08043)
+scale = Vector2(1.255, 1)
+shape = SubResource("RectangleShape2D_fe7mp")
+debug_color = Color(1, 0.196078, 0.419608, 0.419608)
+
+[node name="Botom" type="Area2D" parent="Colliders/LongRange"]
+position = Vector2(3.125, 0.015625)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Colliders/LongRange/Botom"]
+position = Vector2(1.79788, -0.249619)
+scale = Vector2(1.255, 1)
+shape = SubResource("RectangleShape2D_6vkkv")
+debug_color = Color(1, 0.196078, 0.419608, 0.419608)
