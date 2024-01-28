@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://ju633yc20j2v"]
+[gd_scene load_steps=8 format=3 uid="uid://ju633yc20j2v"]
 
 [ext_resource type="PackedScene" uid="uid://bowm640hcb2g5" path="res://Player.tscn" id="1_fv3i3"]
 [ext_resource type="PackedScene" uid="uid://bcpwikbtu13yb" path="res://Objects/Stage/Wall.tscn" id="2_30kbn"]
@@ -6,6 +6,7 @@
 [ext_resource type="Script" path="res://addons/phantom_camera/scripts/phantom_camera_host/phantom_camera_host.gd" id="4_k6754"]
 [ext_resource type="PackedScene" uid="uid://ckwbcwvg27pe6" path="res://Enemy.tscn" id="5_75to3"]
 [ext_resource type="Script" path="res://KingManager.gd" id="6_5i265"]
+[ext_resource type="PackedScene" path="res://game_ui.tscn" id="6_6r1lv"]
 
 [node name="Stage" type="Node2D"]
 
@@ -73,4 +74,7 @@ scale = Vector2(10, 10)
 [node name="KingManager" type="Node2D" parent="."]
 script = ExtResource("6_5i265")
 
+[node name="Game_UI" parent="." instance=ExtResource("6_6r1lv")]
+
 [connection signal="attack_enemy" from="Player" to="Enemy" method="_on_player_attack_enemy"]
+[connection signal="update_health" from="Player" to="Game_UI" method="_on_player_update_health"]

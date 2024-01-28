@@ -4,9 +4,11 @@ const SPEED = 300.0
 const JUMP_VELOCITY = -400.0
 const CROUCH_MODIFIER = 0.5
 const TIME_BETWEEN_KEYS = 0.05 
+const MAX_HEALTH = 100
 
 signal get_enemy_dmg
 signal attack_enemy
+signal update_health
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
@@ -22,6 +24,7 @@ var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 @onready var time = 0
 @onready var crouch_flag = 0
 @onready var favour = 0
+@onready var player_health = 90
 
 func just_movement():
 	if anim.current_animation == "Idle":
@@ -40,13 +43,27 @@ func just_movement():
 	return false
 
 func is_attacking():
-	if anim.current_animation.contains("Attack"):
+	if anim.current_animation.contains("Attack") and anim.is_playing():
 		return true
 	return false
+	
+func change_health():
+	print("Here2")
+	var newHealth = float(player_health) / float(MAX_HEALTH)
+	update_health.emit(int(newHealth * 100))
+
+func die():
+	get_tree().change_scene_to_file("res://tryAgain.tscn")
+	queue_free()
 
 func _physics_process(delta):
 	var state = 0
 	var direction = 0
+	
+	if player_health <= 0:
+		if anim.is_playing():
+			return
+		anim.play("Death")
 	
 	# Add the gravity.
 	if not is_on_floor():
@@ -57,7 +74,8 @@ func _physics_process(delta):
 	var left = Input.is_action_pressed("left")
 	var right = Input.is_action_pressed("right")
 	var down = Input.is_action_pressed("down")
-	var jump = Input.is_action_pressed("up")
+	var up = Input.is_action_pressed("up")
+	var jump = Input.is_action_just_pressed("up")
 	var lAttack = Input.is_action_just_pressed("light_attack")
 	var hAttack = Input.is_action_just_pressed("heavy_attack")
 	
@@ -86,7 +104,7 @@ func _physics_process(delta):
 			get_node("AnimatedSprite2D").scale.x *= -1 
 	
 	
-	if attack_seq_check:
+	if attack_seq_check and not is_attacking():
 		time += delta
 		var flag = 1
 		if time <= TIME_BETWEEN_KEYS and (lAttack or hAttack):
@@ -117,15 +135,15 @@ func _physics_process(delta):
 			attack_seq_check = 0
 			stored_action = 0
 		
-		elif time >= TIME_BETWEEN_KEYS and flag:
-			if just_movement() and is_on_floor() and stored_action == 1:
+		elif time >= TIME_BETWEEN_KEYS:
+			if just_movement() and is_on_floor() and (jump or stored_action == 1):
 				velocity.y = JUMP_VELOCITY
 			
 			time = 0
 			attack_seq_check = 0
 			stored_action = 0
 
-	elif !direction and (lAttack or hAttack):
+	elif !direction and (lAttack or hAttack) and not is_attacking():
 		if lAttack:
 			anim.play("Light_Attack_Mid")
 			get_enemy_dmg.emit(0)
@@ -133,7 +151,7 @@ func _physics_process(delta):
 			anim.play("Heavy_Attack_Mid")
 			get_enemy_dmg.emit(1)
 			
-	if (jump or velocity.y < 0) && !attack_seq_check:
+	if (up or velocity.y < 0) && !attack_seq_check:
 		attack_seq_check = 1
 		stored_action = 1
 		time = 0
@@ -181,3 +199,8 @@ func _physics_process(delta):
 
 func _on_colliders_attack(dmg, target):
 	attack_enemy.emit(dmg, target)
+
+
+func _on_animation_player_animation_finished(anim_name):
+	if anim_name == "Death":
+		die()
