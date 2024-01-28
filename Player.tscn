@@ -945,6 +945,7 @@ debug_color = Color(1, 0.196078, 0.419608, 0.419608)
 [connection signal="attack_enemy" from="." to="AnimatedSprite2D/Colliders" method="_on_player_attack_enemy"]
 [connection signal="get_enemy_dmg" from="." to="AnimatedSprite2D/Colliders" method="_on_player_get_enemy_dmg"]
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
+[connection signal="attack" from="AnimatedSprite2D/Colliders" to="." method="_on_colliders_attack"]
 [connection signal="body_entered" from="AnimatedSprite2D/Colliders/Light_Attack/Mid" to="AnimatedSprite2D/Colliders" method="_on_mid_body_entered"]
 [connection signal="body_exited" from="AnimatedSprite2D/Colliders/Light_Attack/Mid" to="AnimatedSprite2D/Colliders" method="_on_mid_body_exited"]
 [connection signal="body_entered" from="AnimatedSprite2D/Colliders/Light_Attack/Top" to="AnimatedSprite2D/Colliders" method="_on_mid_body_entered"]

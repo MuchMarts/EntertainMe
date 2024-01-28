@@ -34,6 +34,9 @@ var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 @onready var has_jumped = 0
 @onready var has_crouched = 0
 
+func _ready():
+	add_to_group("Player")
+
 func just_movement():
 	if anim.current_animation == "Idle":
 		return true
@@ -233,14 +236,11 @@ func _on_king_manager_start_task():
 func _on_king_manager_ping_player(case):
 	match case:
 		0:
-			print(has_crouched)
 			if has_crouched:
 				ping_king.emit(0, 1)
 		1:
-			print(damage_dealt_overtime)
 			ping_king.emit(1, damage_dealt_overtime)
 			change_favour()
 		2:
-			print(has_jumped)
 			if has_jumped:
 				ping_king.emit(2, 1)

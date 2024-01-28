@@ -1,7 +1,8 @@
-[gd_scene load_steps=10 format=3 uid="uid://ckwbcwvg27pe6"]
+[gd_scene load_steps=11 format=3 uid="uid://ckwbcwvg27pe6"]
 
 [ext_resource type="Script" path="res://Enemy.gd" id="1_8wdyt"]
 [ext_resource type="Texture2D" uid="uid://2ubry4wgogdy" path="res://Assets/Player/enemy.png" id="1_sb3xh"]
+[ext_resource type="Script" path="res://Coliders.gd" id="3_ieimn"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4tvkn"]
 size = Vector2(23.8793, 17.8216)
@@ -103,6 +104,7 @@ libraries = {
 }
 
 [node name="Coliders" type="Node2D" parent="."]
+script = ExtResource("3_ieimn")
 
 [node name="Detect Enemy" type="Area2D" parent="Coliders"]
 
@@ -117,5 +119,6 @@ position = Vector2(0.305123, 1.08919)
 shape = SubResource("CircleShape2D_pmbxj")
 disabled = true
 
-[connection signal="body_entered" from="Coliders/Detect Enemy" to="." method="_on_detect_enemy_body_entered"]
-[connection signal="body_exited" from="Coliders/Detect Enemy" to="." method="_on_detect_enemy_body_exited"]
+[connection signal="target_found" from="Coliders" to="." method="_on_coliders_target_found"]
+[connection signal="body_entered" from="Coliders/Detect Enemy" to="Coliders" method="_on_detect_enemy_body_entered"]
+[connection signal="body_exited" from="Coliders/Detect Enemy" to="Coliders" method="_on_detect_enemy_body_exited"]
