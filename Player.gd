@@ -9,7 +9,8 @@ const MAX_HEALTH = 100
 signal get_enemy_dmg
 signal attack_enemy
 signal update_health
-
+signal update_favour
+signal ping_king
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 
@@ -24,7 +25,14 @@ var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 @onready var time = 0
 @onready var crouch_flag = 0
 @onready var favour = 0
+#jank way to detect wheter favour has been updated
+@onready var ffavour = 0
 @onready var player_health = 90
+
+# King Tasks
+@onready var damage_dealt_overtime = 0
+@onready var has_jumped = 0
+@onready var has_crouched = 0
 
 func just_movement():
 	if anim.current_animation == "Idle":
@@ -48,9 +56,12 @@ func is_attacking():
 	return false
 	
 func change_health():
-	print("Here2")
 	var newHealth = float(player_health) / float(MAX_HEALTH)
 	update_health.emit(int(newHealth * 100))
+
+func change_favour():
+	update_favour.emit(favour + 100)
+	ffavour = favour
 
 func die():
 	get_tree().change_scene_to_file("res://tryAgain.tscn")
@@ -64,7 +75,10 @@ func _physics_process(delta):
 		if anim.is_playing():
 			return
 		anim.play("Death")
-	
+
+	if favour != ffavour:
+		change_favour()
+
 	# Add the gravity.
 	if not is_on_floor():
 		velocity.y += gravity * delta
@@ -138,6 +152,7 @@ func _physics_process(delta):
 		elif time >= TIME_BETWEEN_KEYS:
 			if just_movement() and is_on_floor() and (jump or stored_action == 1):
 				velocity.y = JUMP_VELOCITY
+				has_jumped = 1
 			
 			time = 0
 			attack_seq_check = 0
@@ -177,6 +192,7 @@ func _physics_process(delta):
 			anim.play("Run")
 		else:
 			anim.play("Crouch")
+			has_crouched = 1
 			speed *= CROUCH_MODIFIER
 			crouch_flag = 1
 			get_node("CollisionShape2D").disabled = true
@@ -184,6 +200,7 @@ func _physics_process(delta):
 		velocity.x = direction * speed
 	elif down and just_movement():
 		anim.play("Crouch")
+		has_crouched = 1
 		crouch_flag = 1
 		get_node("CollisionShape2D").disabled = true
 		get_node("CollisionShape2D2").disabled = false
@@ -199,8 +216,31 @@ func _physics_process(delta):
 
 func _on_colliders_attack(dmg, target):
 	attack_enemy.emit(dmg, target)
+	damage_dealt_overtime += dmg
 
 
 func _on_animation_player_animation_finished(anim_name):
 	if anim_name == "Death":
 		die()
+
+
+func _on_king_manager_start_task():
+	has_crouched = 0
+	damage_dealt_overtime = 0
+	has_jumped = 0
+
+
+func _on_king_manager_ping_player(case):
+	match case:
+		0:
+			print(has_crouched)
+			if has_crouched:
+				ping_king.emit(0, 1)
+		1:
+			print(damage_dealt_overtime)
+			ping_king.emit(1, damage_dealt_overtime)
+			change_favour()
+		2:
+			print(has_jumped)
+			if has_jumped:
+				ping_king.emit(2, 1)

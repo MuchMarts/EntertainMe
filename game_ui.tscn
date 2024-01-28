@@ -1,14 +1,22 @@
-[gd_scene load_steps=3 format=3 uid="uid://c3ru5mve71c5"]
+[gd_scene load_steps=4 format=3 uid="uid://c3ru5mve71c5"]
 
 [ext_resource type="Script" path="res://game_ui.gd" id="1_hraf2"]
 [ext_resource type="PackedScene" uid="uid://dmeukgt5np5p5" path="res://health_bar.tscn" id="1_wl05u"]
+[ext_resource type="Script" path="res://favour_bar.gd" id="3_l47iq"]
 
 [node name="Game_UI" type="CanvasLayer"]
 script = ExtResource("1_hraf2")
 
-[node name="ProgressBar" parent="." instance=ExtResource("1_wl05u")]
+[node name="HealthBar" parent="." instance=ExtResource("1_wl05u")]
 offset_top = 71.0
 offset_right = 420.0
 offset_bottom = 117.0
 
-[connection signal="update_bar" from="." to="ProgressBar" method="_on_game_ui_update_bar"]
+[node name="Favour" parent="." instance=ExtResource("1_wl05u")]
+offset_top = 128.0
+offset_right = 168.0
+offset_bottom = 155.0
+script = ExtResource("3_l47iq")
+
+[connection signal="update_bar" from="." to="HealthBar" method="_on_game_ui_update_bar"]
+[connection signal="update_favour" from="." to="Favour" method="_on_game_ui_update_favour"]
