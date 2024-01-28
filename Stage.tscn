@@ -7,7 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://ckwbcwvg27pe6" path="res://Enemy.tscn" id="5_75to3"]
 [ext_resource type="Script" path="res://KingManager.gd" id="6_5i265"]
 [ext_resource type="PackedScene" uid="uid://c3ru5mve71c5" path="res://game_ui.tscn" id="6_6r1lv"]
-[ext_resource type="Texture2D" uid="uid://dtcj80o1fy31k" path="res://Assets/Pretty_Art_Assets/BG_1_pix.png" id="8_hqljb"]
+[ext_resource type="PackedScene" uid="uid://33o5ktuw52g2" path="res://background.tscn" id="8_kdd7b"]
 
 [node name="Stage" type="Node2D"]
 
@@ -21,13 +21,16 @@ rotation = 1.5708
 scale = Vector2(2, 48)
 
 [node name="Floor" parent="Geometry" instance=ExtResource("2_30kbn")]
+modulate = Color(1, 1, 1, 0.12549)
 
 [node name="Right Wall" parent="Geometry" instance=ExtResource("2_30kbn")]
+modulate = Color(1, 1, 1, 0.12549)
 position = Vector2(-948.5, 0)
 rotation = -1.5708
 scale = Vector2(0.0416667, 24.725)
 
 [node name="Left Wall" parent="Geometry" instance=ExtResource("2_30kbn")]
+modulate = Color(1, 1, 1, 0.12549)
 position = Vector2(-948.5, 41.6667)
 rotation = -1.5708
 scale = Vector2(0.0416667, 24.725)
@@ -66,6 +69,7 @@ script = ExtResource("4_k6754")
 
 [node name="Enemy" parent="." instance=ExtResource("5_75to3")]
 position = Vector2(-740, 766)
+rotation = -0.00100694
 scale = Vector2(10, 10)
 
 [node name="Enemy2" parent="." instance=ExtResource("5_75to3")]
@@ -77,11 +81,10 @@ script = ExtResource("6_5i265")
 
 [node name="Game_UI" parent="." instance=ExtResource("6_6r1lv")]
 
-[node name="Bg1Pix" type="Sprite2D" parent="."]
-z_index = -1
-position = Vector2(188, 486)
-scale = Vector2(0.44804, 0.44804)
-texture = ExtResource("8_hqljb")
+[node name="ParallaxBackground" parent="." instance=ExtResource("8_kdd7b")]
+offset = Vector2(-1846.14, 0)
+transform = Transform2D(1, 0, 0, 1, -1846.14, 0)
+follow_viewport_enabled = false
 
 [connection signal="attack_enemy" from="Player" to="Enemy" method="_on_player_attack_enemy"]
 [connection signal="ping_king" from="Player" to="KingManager" method="_on_player_ping_king"]

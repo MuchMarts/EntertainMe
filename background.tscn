@@ -1,0 +1,77 @@
+[gd_scene load_steps=10 format=3 uid="uid://33o5ktuw52g2"]
+
+[ext_resource type="Texture2D" uid="uid://wtl1ihaghow5" path="res://Assets/Pretty_Art_Assets/BG_SKY_pix.png" id="1_py35u"]
+[ext_resource type="Texture2D" uid="uid://dcbmsafxmynv4" path="res://Assets/Pretty_Art_Assets/BG_THRONE_FIRE1_pix.png" id="2_e04vh"]
+[ext_resource type="Texture2D" uid="uid://kf7ym3ft3ccc" path="res://Assets/Pretty_Art_Assets/BG_THRONE_FIRE2_pix.png" id="3_46n0d"]
+[ext_resource type="Texture2D" uid="uid://da8jovej2f122" path="res://Assets/Pretty_Art_Assets/BG_THRONE_FIRE3_pix.png" id="4_fedyx"]
+[ext_resource type="Texture2D" uid="uid://cduiuu2o2hgsw" path="res://Assets/Pretty_Art_Assets/BG_INSIDE2_pix.png" id="5_dfdlc"]
+[ext_resource type="Texture2D" uid="uid://cm5d47aji25qb" path="res://Assets/Pretty_Art_Assets/BG_INSIDE_pix.png" id="6_88ia5"]
+[ext_resource type="Texture2D" uid="uid://5vwf80r76p4h" path="res://Assets/Pretty_Art_Assets/BG_GROUND_pix.png" id="7_ge5x1"]
+[ext_resource type="Texture2D" uid="uid://d4f20rwcedq5u" path="res://Assets/Pretty_Art_Assets/BG_CROWD_pix.png" id="8_5wnyh"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_gwc8p"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_e04vh")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_46n0d")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_fedyx")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="ParallaxBackground" type="ParallaxBackground"]
+follow_viewport_enabled = true
+
+[node name="Sky" type="ParallaxLayer" parent="."]
+z_index = -10
+
+[node name="BgSkyPix" type="Sprite2D" parent="Sky"]
+position = Vector2(1953, 668)
+scale = Vector2(1.25684, 1.25684)
+texture = ExtResource("1_py35u")
+
+[node name="Throne" type="ParallaxLayer" parent="."]
+z_index = 10
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Throne"]
+position = Vector2(1886, 486)
+scale = Vector2(0.458751, 0.458751)
+sprite_frames = SubResource("SpriteFrames_gwc8p")
+frame_progress = 0.791833
+metadata/_edit_lock_ = true
+
+[node name="Inside" type="ParallaxLayer" parent="."]
+z_index = 1
+
+[node name="BgInside2Pix" type="Sprite2D" parent="Inside"]
+z_index = 1
+position = Vector2(1842, 474)
+scale = Vector2(0.479034, 0.479034)
+texture = ExtResource("5_dfdlc")
+
+[node name="BgInsidePix" type="Sprite2D" parent="Inside"]
+position = Vector2(1897, 504)
+scale = Vector2(0.450148, 0.450148)
+texture = ExtResource("6_88ia5")
+
+[node name="Ground" type="ParallaxLayer" parent="."]
+
+[node name="BgGroundPix" type="Sprite2D" parent="Ground"]
+position = Vector2(1945.69, -38.75)
+scale = Vector2(1.01071, 1.01071)
+texture = ExtResource("7_ge5x1")
+metadata/_edit_lock_ = true
+
+[node name="Crowd" type="ParallaxLayer" parent="."]
+
+[node name="BgCrowdPix" type="Sprite2D" parent="Crowd"]
+position = Vector2(1881, 472)
+scale = Vector2(0.549054, 0.549054)
+texture = ExtResource("8_5wnyh")
