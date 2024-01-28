@@ -21,6 +21,7 @@ var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 @onready var stored_action = 0
 @onready var time = 0
 @onready var crouch_flag = 0
+@onready var favour = 0
 
 func just_movement():
 	if anim.current_animation == "Idle":
