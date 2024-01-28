@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://ju633yc20j2v"]
+[gd_scene load_steps=10 format=3 uid="uid://ju633yc20j2v"]
 
 [ext_resource type="PackedScene" uid="uid://bowm640hcb2g5" path="res://Player.tscn" id="1_fv3i3"]
 [ext_resource type="PackedScene" uid="uid://bcpwikbtu13yb" path="res://Objects/Stage/Wall.tscn" id="2_30kbn"]
@@ -8,6 +8,7 @@
 [ext_resource type="Script" path="res://KingManager.gd" id="6_5i265"]
 [ext_resource type="PackedScene" path="res://game_ui.tscn" id="6_6r1lv"]
 [ext_resource type="PackedScene" path="res://background.tscn" id="8_kdd7b"]
+[ext_resource type="Script" path="res://EnemySpawner.gd" id="9_8kdak"]
 
 [node name="Stage" type="Node2D"]
 
@@ -87,6 +88,9 @@ script = ExtResource("6_5i265")
 offset = Vector2(-1846.14, 0)
 transform = Transform2D(1, 0, 0, 1, -1846.14, 0)
 follow_viewport_enabled = false
+
+[node name="Enemy Spawner" type="Node2D" parent="."]
+script = ExtResource("9_8kdak")
 
 [connection signal="attack_enemy" from="Player" to="Enemy" method="_on_player_attack_enemy"]
 [connection signal="ping_king" from="Player" to="KingManager" method="_on_player_ping_king"]
