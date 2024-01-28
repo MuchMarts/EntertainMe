@@ -1,0 +1,36 @@
+[gd_scene load_steps=3 format=3 uid="uid://cwaw71f8r4u0a"]
+
+[ext_resource type="Script" path="res://Button.gd" id="1_pj7ad"]
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_xidsy"]
+
+[node name="GameOver" type="CanvasLayer"]
+
+[node name="Button" type="Button" parent="."]
+offset_left = 358.0
+offset_top = 368.0
+offset_right = 773.0
+offset_bottom = 484.0
+text = "Back to main menu"
+script = ExtResource("1_pj7ad")
+
+[node name="Label" type="Label" parent="Button"]
+layout_mode = 0
+offset_left = -291.0
+offset_top = -268.0
+offset_right = -27.0
+offset_bottom = -231.0
+scale = Vector2(3.74436, 6.05277)
+text = "King was not amused."
+horizontal_alignment = 1
+vertical_alignment = 1
+visible_ratio = -0.05
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+modulate = Color(0.890196, 0.317647, 0.537255, 1)
+z_index = -10
+position = Vector2(577.25, 322.25)
+scale = Vector2(1155.5, 645.5)
+texture = SubResource("CanvasTexture_xidsy")
+
+[connection signal="pressed" from="Button" to="Button" method="_on_pressed"]
