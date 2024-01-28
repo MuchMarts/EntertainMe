@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://crfaonieaxvi5"]
+
+[ext_resource type="PackedScene" uid="uid://cwaw71f8r4u0a" path="res://game_over.tscn" id="1_leea2"]
+
+[node name="GameOver" type="Node2D"]
+
+[node name="GameOver" parent="." instance=ExtResource("1_leea2")]

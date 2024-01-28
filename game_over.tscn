@@ -14,23 +14,19 @@ offset_bottom = 484.0
 text = "Back to main menu"
 script = ExtResource("1_pj7ad")
 
-[node name="Label" type="Label" parent="Button"]
-layout_mode = 0
-offset_left = -291.0
-offset_top = -268.0
-offset_right = -27.0
-offset_bottom = -231.0
-scale = Vector2(3.74436, 6.05277)
-text = "King was not amused."
-horizontal_alignment = 1
-vertical_alignment = 1
-visible_ratio = -0.05
-
 [node name="Sprite2D" type="Sprite2D" parent="."]
-modulate = Color(0.890196, 0.317647, 0.537255, 1)
+modulate = Color(0.12549, 0.00784314, 0.0509804, 1)
 z_index = -10
 position = Vector2(577.25, 322.25)
 scale = Vector2(1155.5, 645.5)
 texture = SubResource("CanvasTexture_xidsy")
+
+[node name="Label" type="Label" parent="."]
+offset_right = 245.0
+offset_bottom = 84.0
+scale = Vector2(4.68124, 4.40876)
+text = "The King was not amused."
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [connection signal="pressed" from="Button" to="Button" method="_on_pressed"]
