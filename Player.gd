@@ -22,7 +22,6 @@ var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 @onready var attack_seq_check = 0
 @onready var stored_action = 0
 @onready var time = 0
-@onready var time2 = 0
 @onready var crouch_flag = 0
 @onready var player_health = 90
 
@@ -51,7 +50,15 @@ func change_health():
 	print("Here2")
 	var newHealth = float(player_health) / float(MAX_HEALTH)
 	update_health.emit(int(newHealth * 100))
-	
+
+func die():
+	anim.play("Death")
+	while true:
+		if !anim.is_playing():
+			queue_free()
+			return
+		
+
 func _physics_process(delta):
 	var state = 0
 	var direction = 0
@@ -65,7 +72,8 @@ func _physics_process(delta):
 	var left = Input.is_action_pressed("left")
 	var right = Input.is_action_pressed("right")
 	var down = Input.is_action_pressed("down")
-	var jump = Input.is_action_pressed("up")
+	var up = Input.is_action_pressed("up")
+	var jump = Input.is_action_just_pressed("up")
 	var lAttack = Input.is_action_just_pressed("light_attack")
 	var hAttack = Input.is_action_just_pressed("heavy_attack")
 	
@@ -125,8 +133,8 @@ func _physics_process(delta):
 			attack_seq_check = 0
 			stored_action = 0
 		
-		elif time >= TIME_BETWEEN_KEYS and flag:
-			if just_movement() and is_on_floor() and stored_action == 1:
+		elif time >= TIME_BETWEEN_KEYS:
+			if just_movement() and is_on_floor() and (jump or stored_action == 1):
 				velocity.y = JUMP_VELOCITY
 			
 			time = 0
@@ -141,7 +149,7 @@ func _physics_process(delta):
 			anim.play("Heavy_Attack_Mid")
 			get_enemy_dmg.emit(1)
 			
-	if (jump or velocity.y < 0) && !attack_seq_check:
+	if (up or velocity.y < 0) && !attack_seq_check:
 		attack_seq_check = 1
 		stored_action = 1
 		time = 0
