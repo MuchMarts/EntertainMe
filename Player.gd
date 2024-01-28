@@ -52,16 +52,17 @@ func change_health():
 	update_health.emit(int(newHealth * 100))
 
 func die():
-	anim.play("Death")
-	while true:
-		if !anim.is_playing():
-			queue_free()
-			return
-		
+	get_tree().change_scene_to_file("res://tryAgain.tscn")
+	queue_free()
 
 func _physics_process(delta):
 	var state = 0
 	var direction = 0
+	
+	if player_health <= 0:
+		if anim.is_playing():
+			return
+		anim.play("Death")
 	
 	# Add the gravity.
 	if not is_on_floor():
@@ -199,4 +200,6 @@ func _on_colliders_attack(dmg, target):
 	attack_enemy.emit(dmg, target)
 
 
-
+func _on_animation_player_animation_finished(anim_name):
+	if anim_name == "Death":
+		die()
