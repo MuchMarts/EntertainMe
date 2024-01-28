@@ -6,8 +6,8 @@
 [ext_resource type="Script" path="res://addons/phantom_camera/scripts/phantom_camera_host/phantom_camera_host.gd" id="4_k6754"]
 [ext_resource type="PackedScene" uid="uid://ckwbcwvg27pe6" path="res://Enemy.tscn" id="5_75to3"]
 [ext_resource type="Script" path="res://KingManager.gd" id="6_5i265"]
-[ext_resource type="PackedScene" uid="uid://c3ru5mve71c5" path="res://game_ui.tscn" id="6_6r1lv"]
-[ext_resource type="PackedScene" uid="uid://33o5ktuw52g2" path="res://background.tscn" id="8_kdd7b"]
+[ext_resource type="PackedScene" path="res://game_ui.tscn" id="6_6r1lv"]
+[ext_resource type="PackedScene" path="res://background.tscn" id="8_kdd7b"]
 
 [node name="Stage" type="Node2D"]
 
@@ -45,16 +45,16 @@ follow_mode = 5
 follow_target = NodePath("../Player")
 follow_parameters/target_offset = Vector2(0, 0)
 follow_parameters/damping = false
-follow_parameters/dead_zone_horizontal = 0.4
+follow_parameters/dead_zone_horizontal = 0.2
 follow_parameters/dead_zone_vertical = 0.3
 follow_parameters/viewfinder_in_play = false
 frame_preview = true
 pixel_perfect = false
-limit/draw_limits = false
+limit/draw_limits = true
 limit/left = -10000000
 limit/top = -10000000
 limit/right = 10000000
-limit/bottom = 10000000
+limit/bottom = 1000
 limit/limit_node_target = NodePath("")
 limit/smoothed = false
 tween_parameters = null
@@ -63,6 +63,8 @@ inactive_update_mode = 0
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(337, 455)
+limit_bottom = 1000
+editor_draw_limits = true
 
 [node name="PhantomCameraHost" type="Node" parent="Camera2D"]
 script = ExtResource("4_k6754")

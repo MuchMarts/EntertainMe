@@ -46,6 +46,7 @@ var WORD_ACTIONS = {
 }
 
 func change_favour(object, amount):
+	if object == null: return
 	object.favour = clamp(object.favour + amount, -100, 100)
 
 var current_interval = -1
@@ -79,10 +80,10 @@ func _process(delta):
 				change_favour(player, 5)
 				change_favour(opponent, -5)
 				current_selection = null
-			elif WORD_ACTIONS[current_selection].call(opponent, player):
-				change_favour(player, -5)
-				change_favour(opponent, 5)
-				current_selection = null
+			#elif WORD_ACTIONS[current_selection].call(opponent, player):
+				#change_favour(player, -5)
+				#change_favour(opponent, 5)
+				#current_selection = null
 
 
 func _on_player_ping_king(case, arg):
