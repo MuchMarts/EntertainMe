@@ -3,6 +3,8 @@ extends CharacterBody2D
 const SPEED = 150.0
 @onready var HEALTH = 100
 @onready var target = null
+@onready var target_in_range = null
+@onready var attack_speed = 0.5
 @onready var flag = 0
 @onready var anim = get_node("CollisionShape2D/AnimationPlayer")
 # Get the gravity from the project settings to be synced with RigidBody nodes.
@@ -49,3 +51,13 @@ func _on_detect_enemy_body_entered(body):
 func _on_detect_enemy_body_exited(body):
 	if body.is_in_group("Player"):
 		target = null
+
+
+func _on_attack_enemy_body_entered(body):
+	if body.is_in_group("Player"):
+		target_in_range = body
+
+
+func _on_attack_enemy_body_exited(body):
+	if body.is_in_group("Player"):
+		target_in_range = null

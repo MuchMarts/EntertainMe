@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://bpnn4p4lvbsmi"]
+
+[ext_resource type="Texture2D" uid="uid://dtcj80o1fy31k" path="res://Assets/Pretty_Art_Assets/BG_1_pix.png" id="1_mpqon"]
+
+[node name="CanvasLayer" type="CanvasLayer"]
+
+[node name="Bg1Pix" type="Sprite2D" parent="."]
+position = Vector2(577, 329)
+scale = Vector2(0.303555, 0.303555)
+texture = ExtResource("1_mpqon")

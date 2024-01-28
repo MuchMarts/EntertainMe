@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://ju633yc20j2v"]
+[gd_scene load_steps=9 format=3 uid="uid://ju633yc20j2v"]
 
 [ext_resource type="PackedScene" uid="uid://bowm640hcb2g5" path="res://Player.tscn" id="1_fv3i3"]
 [ext_resource type="PackedScene" uid="uid://bcpwikbtu13yb" path="res://Objects/Stage/Wall.tscn" id="2_30kbn"]
@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://ckwbcwvg27pe6" path="res://Enemy.tscn" id="5_75to3"]
 [ext_resource type="Script" path="res://KingManager.gd" id="6_5i265"]
 [ext_resource type="PackedScene" uid="uid://c3ru5mve71c5" path="res://game_ui.tscn" id="6_6r1lv"]
+[ext_resource type="Texture2D" uid="uid://dtcj80o1fy31k" path="res://Assets/Pretty_Art_Assets/BG_1_pix.png" id="8_hqljb"]
 
 [node name="Stage" type="Node2D"]
 
@@ -75,6 +76,12 @@ scale = Vector2(10, 10)
 script = ExtResource("6_5i265")
 
 [node name="Game_UI" parent="." instance=ExtResource("6_6r1lv")]
+
+[node name="Bg1Pix" type="Sprite2D" parent="."]
+z_index = -1
+position = Vector2(188, 486)
+scale = Vector2(0.44804, 0.44804)
+texture = ExtResource("8_hqljb")
 
 [connection signal="attack_enemy" from="Player" to="Enemy" method="_on_player_attack_enemy"]
 [connection signal="ping_king" from="Player" to="KingManager" method="_on_player_ping_king"]

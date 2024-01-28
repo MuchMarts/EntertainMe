@@ -115,7 +115,8 @@ shape = SubResource("CircleShape2D_igwjw")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Coliders/Attack Enemy"]
 position = Vector2(0.305123, 1.08919)
 shape = SubResource("CircleShape2D_pmbxj")
-disabled = true
 
 [connection signal="body_entered" from="Coliders/Detect Enemy" to="." method="_on_detect_enemy_body_entered"]
 [connection signal="body_exited" from="Coliders/Detect Enemy" to="." method="_on_detect_enemy_body_exited"]
+[connection signal="body_entered" from="Coliders/Attack Enemy" to="." method="_on_attack_enemy_body_entered"]
+[connection signal="body_exited" from="Coliders/Attack Enemy" to="." method="_on_attack_enemy_body_exited"]
