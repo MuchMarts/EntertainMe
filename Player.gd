@@ -11,8 +11,8 @@ var INPUT_BUFFER: Array = []
 var BUFFER_POINTER: int = 0
 var BUFFER_SIZE: int = 20 # How many frames of data are we storing
 var BUFFER_PUSH_TIME: float = 0.0 # TODO: Rework to track how much time has elapsed not only frame count, for better control of state
-var BUFFER_TEMP_MOVES: Array
-
+var BUFFER_TEMP_MOVES: Array = []
+var BUTTON_STATES: Array = [0, 0, 0, 0, 0, 0]
 signal get_enemy_dmg
 signal attack_enemy
 signal update_health
@@ -92,48 +92,43 @@ func _physics_process(delta):
 		velocity.y += gravity * delta
 	# Get the input direction and handle the movement/deceleration.
 	# As good practice, you should replace UI actions with custom gameplay actions.
-	var moves: Array = []
-	var left = Input.is_action_just_pressed("left")
-	var right = Input.is_action_just_pressed("right")
-	var down = Input.is_action_just_pressed("down")
-	var up = Input.is_action_just_pressed("up")
-	var light = Input.is_action_just_pressed("light_attack")
-	var heavy = Input.is_action_just_pressed("heavy_attack")
 
-	if left: moves.append('a')
-	if right: moves.append('d')
-	if down: moves.append('s')
-	if up: moves.append('w')
-	if light: moves.append('l')
-	if heavy: moves.append('h')
+	BUTTON_STATES[0] = Input.is_action_pressed("left")
+	BUTTON_STATES[1] = Input.is_action_pressed("right")
+	BUTTON_STATES[2] = Input.is_action_pressed("down")
+	BUTTON_STATES[3] = Input.is_action_pressed("up")
+	BUTTON_STATES[4] = Input.is_action_pressed("light_attack")
+	BUTTON_STATES[5] = Input.is_action_pressed("heavy_attack")
 	
 	BUFFER_PUSH_TIME += delta
 	
 	if BUFFER_PUSH_TIME <= FRAME_TIME:
-		if moves:
-			for m in moves:
-				BUFFER_TEMP_MOVES.append(m)
-		print("Waiting")
+		BUFFER_TEMP_MOVES.append(BUTTON_STATES)
 	
 	if BUFFER_PUSH_TIME >= FRAME_TIME:
+		var b_states = [0,0,0,0,0,0]
+		
+		for i in range(len(BUTTON_STATES)):
+			for b in BUFFER_TEMP_MOVES:
+				if b[i]:
+					b_states[i] = 1
+					break	
+		
+		
 		if BUFFER_POINTER >= BUFFER_SIZE:
 			BUFFER_POINTER = BUFFER_POINTER % BUFFER_SIZE
-			INPUT_BUFFER[BUFFER_POINTER] = BUFFER_TEMP_MOVES
+			INPUT_BUFFER[BUFFER_POINTER] = b_states
 		elif len(INPUT_BUFFER) < BUFFER_SIZE:
-			INPUT_BUFFER.append(BUFFER_TEMP_MOVES)
+			INPUT_BUFFER.append(b_states)
 		else:
-			INPUT_BUFFER[BUFFER_POINTER] = BUFFER_TEMP_MOVES
+			INPUT_BUFFER[BUFFER_POINTER] = b_states
 		BUFFER_TEMP_MOVES = []
 		BUFFER_PUSH_TIME = 0.0
 		BUFFER_POINTER += 1
 		input_buffer.emit(INPUT_BUFFER, BUFFER_POINTER)
-		print("Added")
-
 
 	
-	print(BUFFER_PUSH_TIME)
-	print(delta)
-	print(FRAME_TIME)
+
 	
 func _on_colliders_attack(dmg, target):
 	attack_enemy.emit(dmg, target)
@@ -142,6 +137,7 @@ func _on_colliders_attack(dmg, target):
 
 func _on_animation_player_animation_finished(anim_name):
 	if anim_name == "Death":
+
 		die()
 
 
