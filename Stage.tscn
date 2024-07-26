@@ -1,14 +1,11 @@
-[gd_scene load_steps=10 format=3 uid="uid://ju633yc20j2v"]
+[gd_scene load_steps=7 format=3 uid="uid://ju633yc20j2v"]
 
 [ext_resource type="PackedScene" uid="uid://bowm640hcb2g5" path="res://Player.tscn" id="1_fv3i3"]
 [ext_resource type="PackedScene" uid="uid://bcpwikbtu13yb" path="res://Objects/Stage/Wall.tscn" id="2_30kbn"]
 [ext_resource type="Script" path="res://addons/phantom_camera/scripts/phantom_camera/phantom_camera_2D.gd" id="3_2o35j"]
 [ext_resource type="Script" path="res://addons/phantom_camera/scripts/phantom_camera_host/phantom_camera_host.gd" id="4_k6754"]
-[ext_resource type="PackedScene" uid="uid://ckwbcwvg27pe6" path="res://Enemy.tscn" id="5_75to3"]
-[ext_resource type="Script" path="res://KingManager.gd" id="6_5i265"]
-[ext_resource type="PackedScene" path="res://game_ui.tscn" id="6_6r1lv"]
-[ext_resource type="PackedScene" path="res://background.tscn" id="8_kdd7b"]
-[ext_resource type="Script" path="res://EnemySpawner.gd" id="9_8kdak"]
+[ext_resource type="PackedScene" uid="uid://c3ru5mve71c5" path="res://game_ui.tscn" id="6_6r1lv"]
+[ext_resource type="PackedScene" uid="uid://33o5ktuw52g2" path="res://background.tscn" id="8_kdd7b"]
 
 [node name="Stage" type="Node2D"]
 
@@ -70,18 +67,6 @@ editor_draw_limits = true
 [node name="PhantomCameraHost" type="Node" parent="Camera2D"]
 script = ExtResource("4_k6754")
 
-[node name="Enemy" parent="." instance=ExtResource("5_75to3")]
-position = Vector2(-740, 766)
-rotation = -0.00100694
-scale = Vector2(10, 10)
-
-[node name="Enemy2" parent="." instance=ExtResource("5_75to3")]
-position = Vector2(810, 777)
-scale = Vector2(10, 10)
-
-[node name="KingManager" type="Node2D" parent="."]
-script = ExtResource("6_5i265")
-
 [node name="Game_UI" parent="." instance=ExtResource("6_6r1lv")]
 
 [node name="ParallaxBackground" parent="." instance=ExtResource("8_kdd7b")]
@@ -89,12 +74,5 @@ offset = Vector2(-1846.14, 0)
 transform = Transform2D(1, 0, 0, 1, -1846.14, 0)
 follow_viewport_enabled = false
 
-[node name="Enemy Spawner" type="Node2D" parent="."]
-script = ExtResource("9_8kdak")
-
-[connection signal="attack_enemy" from="Player" to="Enemy" method="_on_player_attack_enemy"]
-[connection signal="ping_king" from="Player" to="KingManager" method="_on_player_ping_king"]
 [connection signal="update_favour" from="Player" to="Game_UI" method="_on_player_update_favour"]
 [connection signal="update_health" from="Player" to="Game_UI" method="_on_player_update_health"]
-[connection signal="ping_player" from="KingManager" to="Player" method="_on_king_manager_ping_player"]
-[connection signal="start_task" from="KingManager" to="Player" method="_on_king_manager_start_task"]

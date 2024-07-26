@@ -1,11 +1,17 @@
 extends CharacterBody2D
 
-const SPEED = 300.0
-const JUMP_VELOCITY = -400.0
-const CROUCH_MODIFIER = 0.5
-const TIME_BETWEEN_KEYS = 0.05 
-const MAX_HEALTH = 100
+const SPEED: float = 300.0
+const JUMP_VELOCITY: float = -400.0
+const CROUCH_MODIFIER: float = 0.5
+const TIME_BETWEEN_KEYS: float = 0.05 
+const MAX_HEALTH: int = 100
+const FRAME_TIME: float = 1/60
 
+var INPUT_BUFFER: Array = []
+var BUFFER_POINTER: int = 0
+var BUFFER_SIZE: int = 20 # How many frames of data are we storing
+var BUFFER_PUSH_TIME: float = 0.0 # TODO: Rework to track how much time has elapsed not only frame count, for better control of state
+ 
 signal get_enemy_dmg
 signal attack_enemy
 signal update_health
@@ -71,9 +77,6 @@ func die():
 	queue_free()
 
 func _physics_process(delta):
-	var state = 0
-	var direction = 0
-	
 	if player_health <= 0:
 		if anim.is_playing():
 			return
@@ -87,136 +90,33 @@ func _physics_process(delta):
 		velocity.y += gravity * delta
 	# Get the input direction and handle the movement/deceleration.
 	# As good practice, you should replace UI actions with custom gameplay actions.
+	var moves: Array = []
+	var left = Input.is_action_just_pressed("left")
+	var right = Input.is_action_just_pressed("right")
+	var down = Input.is_action_just_pressed("down")
+	var up = Input.is_action_just_pressed("up")
+	var light = Input.is_action_just_pressed("light_attack")
+	var heavy = Input.is_action_just_pressed("heavy_attack")
 	
-	var left = Input.is_action_pressed("left")
-	var right = Input.is_action_pressed("right")
-	var down = Input.is_action_pressed("down")
-	var up = Input.is_action_pressed("up")
-	var jump = Input.is_action_just_pressed("up")
-	var lAttack = Input.is_action_just_pressed("light_attack")
-	var hAttack = Input.is_action_just_pressed("heavy_attack")
-	
-	
-
-	
-	# Nullify previous input so player cant stop if left and right are pressed at the same time
-	if left != false && right == false:
-		PREV = -1
-		direction = -1
-	elif right != false && left == false:
-		PREV = 1
-		direction = 1
-	
-	if left == true && right == true:
-		if PREV == 1:
-			direction = -1
-		elif PREV == -1:
-			direction = 1
-	
-	if direction == -1:
-		if get_node("AnimatedSprite2D").scale.x >= 0:
-			get_node("AnimatedSprite2D").scale.x *= -1 
-	elif direction == 1:
-		if get_node("AnimatedSprite2D").scale.x < 0:
-			get_node("AnimatedSprite2D").scale.x *= -1 
-	
-	
-	if attack_seq_check and not is_attacking():
-		time += delta
-		var flag = 1
-		if time <= TIME_BETWEEN_KEYS and (lAttack or hAttack):
-			if hAttack: 
-				stored_action += 1
-			flag = 0
-			match stored_action:
-				1:
-					anim.play("Light_Attack_Top")
-					get_enemy_dmg.emit(0)
-				2:
-					anim.play("Heavy_Attack_Top")
-					get_enemy_dmg.emit(1)
-				3:
-					anim.play("Light_Attack_Mid")
-					get_enemy_dmg.emit(0)
-				4:
-					anim.play("Heavy_Attack_Mid")
-					get_enemy_dmg.emit(1)
-				5:
-					anim.play("Light_Attack_Bot")
-					get_enemy_dmg.emit(0)
-				6:
-					anim.play("Heavy_Attack_Bot")
-					get_enemy_dmg.emit(1)
-			
-			time = 0
-			attack_seq_check = 0
-			stored_action = 0
-		
-		elif time >= TIME_BETWEEN_KEYS:
-			if just_movement() and is_on_floor() and (jump or stored_action == 1):
-				velocity.y = JUMP_VELOCITY
-				has_jumped = 1
-			
-			time = 0
-			attack_seq_check = 0
-			stored_action = 0
-
-	elif !direction and (lAttack or hAttack) and not is_attacking():
-		if lAttack:
-			anim.play("Light_Attack_Mid")
-			get_enemy_dmg.emit(0)
-		if hAttack:
-			anim.play("Heavy_Attack_Mid")
-			get_enemy_dmg.emit(1)
-			
-	if (up or velocity.y < 0) && !attack_seq_check:
-		attack_seq_check = 1
-		stored_action = 1
-		time = 0
-	
-	if down && !attack_seq_check:
-		attack_seq_check = 1
-		stored_action = 5
-		time = 0
-		
-	if direction && !attack_seq_check:
-		attack_seq_check = 1
-		stored_action = 3
-		time = 0	
-	
-	if not down and crouch_flag:
-		crouch_flag = 0
-		get_node("CollisionShape2D").disabled = false
-		get_node("CollisionShape2D2").disabled = true
-	
-	if direction and just_movement():
-		var speed = SPEED
-		if !down:
-			anim.play("Run")
+	if left: moves.append('a')
+	if right: moves.append('d')
+	if down: moves.append('s')
+	if up: moves.append('w')
+	if light: moves.append('l')
+	if heavy: moves.append('h')
+	if moves:
+		if BUFFER_POINTER >= BUFFER_SIZE:
+			BUFFER_POINTER = BUFFER_POINTER % BUFFER_SIZE
+			INPUT_BUFFER[BUFFER_POINTER] = moves
+		elif len(INPUT_BUFFER) < BUFFER_SIZE:
+			INPUT_BUFFER.append(moves)
 		else:
-			anim.play("Crouch")
-			has_crouched = 1
-			speed *= CROUCH_MODIFIER
-			crouch_flag = 1
-			get_node("CollisionShape2D").disabled = true
-			get_node("CollisionShape2D2").disabled = false
-		velocity.x = direction * speed
-	elif down and just_movement():
-		anim.play("Crouch")
-		has_crouched = 1
-		crouch_flag = 1
-		get_node("CollisionShape2D").disabled = true
-		get_node("CollisionShape2D2").disabled = false
-	elif velocity.y > 0 and just_movement():
-		anim.play("Fall")
-	elif velocity.y < 0 and just_movement():
-		anim.play("Jump")
-	elif just_movement():
-		velocity.x = move_toward(velocity.x, 0, SPEED)
-		anim.play("Idle")
-
-	move_and_slide()
-
+			INPUT_BUFFER[BUFFER_POINTER] = moves
+			
+		BUFFER_POINTER += 1
+		print(moves)
+		print(INPUT_BUFFER)
+	
 func _on_colliders_attack(dmg, target):
 	attack_enemy.emit(dmg, target)
 	damage_dealt_overtime += dmg
