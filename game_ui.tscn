@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://c3ru5mve71c5"]
+[gd_scene load_steps=5 format=3 uid="uid://c3ru5mve71c5"]
 
 [ext_resource type="Script" path="res://game_ui.gd" id="1_hraf2"]
 [ext_resource type="PackedScene" uid="uid://dmeukgt5np5p5" path="res://health_bar.tscn" id="1_wl05u"]
 [ext_resource type="Script" path="res://favour_bar.gd" id="3_l47iq"]
+[ext_resource type="Script" path="res://RichTextLabel.gd" id="4_kn31a"]
 
 [node name="Game_UI" type="CanvasLayer"]
 script = ExtResource("1_hraf2")
@@ -18,5 +19,13 @@ offset_right = 168.0
 offset_bottom = 155.0
 script = ExtResource("3_l47iq")
 
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+offset_top = 168.0
+offset_right = 420.0
+offset_bottom = 208.0
+text = "12345678910111213141516181920"
+script = ExtResource("4_kn31a")
+
 [connection signal="update_bar" from="." to="HealthBar" method="_on_game_ui_update_bar"]
 [connection signal="update_favour" from="." to="Favour" method="_on_game_ui_update_favour"]
+[connection signal="update_input_buffer" from="." to="RichTextLabel" method="_on_game_ui_update_input_buffer"]

@@ -74,5 +74,6 @@ offset = Vector2(-1846.14, 0)
 transform = Transform2D(1, 0, 0, 1, -1846.14, 0)
 follow_viewport_enabled = false
 
+[connection signal="input_buffer" from="Player" to="Game_UI" method="_on_player_input_buffer"]
 [connection signal="update_favour" from="Player" to="Game_UI" method="_on_player_update_favour"]
 [connection signal="update_health" from="Player" to="Game_UI" method="_on_player_update_health"]

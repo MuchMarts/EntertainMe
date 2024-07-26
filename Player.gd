@@ -5,18 +5,20 @@ const JUMP_VELOCITY: float = -400.0
 const CROUCH_MODIFIER: float = 0.5
 const TIME_BETWEEN_KEYS: float = 0.05 
 const MAX_HEALTH: int = 100
-const FRAME_TIME: float = 1/60
+const FRAME_TIME: float = 1.0 / 60.0
 
 var INPUT_BUFFER: Array = []
 var BUFFER_POINTER: int = 0
 var BUFFER_SIZE: int = 20 # How many frames of data are we storing
 var BUFFER_PUSH_TIME: float = 0.0 # TODO: Rework to track how much time has elapsed not only frame count, for better control of state
- 
+var BUFFER_TEMP_MOVES: Array
+
 signal get_enemy_dmg
 signal attack_enemy
 signal update_health
 signal update_favour
 signal ping_king
+signal input_buffer
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 
@@ -104,18 +106,25 @@ func _physics_process(delta):
 	if up: moves.append('w')
 	if light: moves.append('l')
 	if heavy: moves.append('h')
-	if moves:
+	if BUFFER_PUSH_TIME > FRAME_TIME:
 		if BUFFER_POINTER >= BUFFER_SIZE:
 			BUFFER_POINTER = BUFFER_POINTER % BUFFER_SIZE
-			INPUT_BUFFER[BUFFER_POINTER] = moves
+			INPUT_BUFFER[BUFFER_POINTER] = BUFFER_TEMP_MOVES
 		elif len(INPUT_BUFFER) < BUFFER_SIZE:
-			INPUT_BUFFER.append(moves)
+			INPUT_BUFFER.append(BUFFER_TEMP_MOVES)
 		else:
-			INPUT_BUFFER[BUFFER_POINTER] = moves
-			
+			INPUT_BUFFER[BUFFER_POINTER] = BUFFER_TEMP_MOVES
+		BUFFER_TEMP_MOVES = []
+		BUFFER_PUSH_TIME = 0.0
 		BUFFER_POINTER += 1
-		print(moves)
-		print(INPUT_BUFFER)
+		input_buffer.emit(INPUT_BUFFER, BUFFER_POINTER)
+	else:
+		if moves:
+			for m in moves:
+				BUFFER_TEMP_MOVES.append(m)
+		BUFFER_PUSH_TIME += delta
+	print(delta)
+	print(FRAME_TIME)
 	
 func _on_colliders_attack(dmg, target):
 	attack_enemy.emit(dmg, target)
