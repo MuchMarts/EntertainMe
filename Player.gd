@@ -99,14 +99,23 @@ func _physics_process(delta):
 	var up = Input.is_action_just_pressed("up")
 	var light = Input.is_action_just_pressed("light_attack")
 	var heavy = Input.is_action_just_pressed("heavy_attack")
-	
+
 	if left: moves.append('a')
 	if right: moves.append('d')
 	if down: moves.append('s')
 	if up: moves.append('w')
 	if light: moves.append('l')
 	if heavy: moves.append('h')
-	if BUFFER_PUSH_TIME > FRAME_TIME:
+	
+	BUFFER_PUSH_TIME += delta
+	
+	if BUFFER_PUSH_TIME <= FRAME_TIME:
+		if moves:
+			for m in moves:
+				BUFFER_TEMP_MOVES.append(m)
+		print("Waiting")
+	
+	if BUFFER_PUSH_TIME >= FRAME_TIME:
 		if BUFFER_POINTER >= BUFFER_SIZE:
 			BUFFER_POINTER = BUFFER_POINTER % BUFFER_SIZE
 			INPUT_BUFFER[BUFFER_POINTER] = BUFFER_TEMP_MOVES
@@ -118,11 +127,11 @@ func _physics_process(delta):
 		BUFFER_PUSH_TIME = 0.0
 		BUFFER_POINTER += 1
 		input_buffer.emit(INPUT_BUFFER, BUFFER_POINTER)
-	else:
-		if moves:
-			for m in moves:
-				BUFFER_TEMP_MOVES.append(m)
-		BUFFER_PUSH_TIME += delta
+		print("Added")
+
+
+	
+	print(BUFFER_PUSH_TIME)
 	print(delta)
 	print(FRAME_TIME)
 	
