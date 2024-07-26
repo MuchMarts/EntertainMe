@@ -10,9 +10,10 @@ const FRAME_TIME: float = 1.0 / 60.0
 var INPUT_BUFFER: Array = []
 var BUFFER_POINTER: int = 0
 var BUFFER_SIZE: int = 20 # How many frames of data are we storing
-var BUFFER_PUSH_TIME: float = 0.0 # TODO: Rework to track how much time has elapsed not only frame count, for better control of state
+var BUFFER_PUSH_TIME: float = 0.0 
 var BUFFER_TEMP_MOVES: Array = []
 var BUTTON_STATES: Array = [0, 0, 0, 0, 0, 0]
+
 signal get_enemy_dmg
 signal attack_enemy
 signal update_health
@@ -127,7 +128,9 @@ func _physics_process(delta):
 		BUFFER_PUSH_TIME = 0.0
 		BUFFER_POINTER += 1
 		input_buffer.emit(INPUT_BUFFER, BUFFER_POINTER)
-
+	
+	# TODO: Do State Magic
+	
 	
 func _on_colliders_attack(dmg, target):
 	attack_enemy.emit(dmg, target)
