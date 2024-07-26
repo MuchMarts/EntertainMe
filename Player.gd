@@ -102,10 +102,11 @@ func _physics_process(delta):
 	
 	BUFFER_PUSH_TIME += delta
 	
-	if BUFFER_PUSH_TIME <= FRAME_TIME:
+	if BUFFER_PUSH_TIME < FRAME_TIME:
 		BUFFER_TEMP_MOVES.append(BUTTON_STATES)
 	
 	if BUFFER_PUSH_TIME >= FRAME_TIME:
+		BUFFER_TEMP_MOVES.append(BUTTON_STATES)
 		var b_states = [0,0,0,0,0,0]
 		
 		for i in range(len(BUTTON_STATES)):
@@ -126,8 +127,6 @@ func _physics_process(delta):
 		BUFFER_PUSH_TIME = 0.0
 		BUFFER_POINTER += 1
 		input_buffer.emit(INPUT_BUFFER, BUFFER_POINTER)
-
-	
 
 	
 func _on_colliders_attack(dmg, target):

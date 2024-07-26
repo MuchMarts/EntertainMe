@@ -22,7 +22,7 @@ script = ExtResource("3_l47iq")
 [node name="RichTextLabel" type="RichTextLabel" parent="."]
 offset_top = 168.0
 offset_right = 420.0
-offset_bottom = 208.0
+offset_bottom = 271.0
 text = "12345678910111213141516181920"
 script = ExtResource("4_kn31a")
 
